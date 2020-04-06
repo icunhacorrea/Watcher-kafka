@@ -34,14 +34,16 @@ public class SockerServer extends Thread {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Record record = (Record) ois.readObject();
 
-                cacheManager.insert(record.getOrigem() + "," + record.getDestino() + "," + record.getIdSeq(),
-                                    record.getTimeStamp() + "," + record.getQntRecords() + "," +
-                                    record.getKey().toString() + "," + record.getValue().toString());
+                if (cacheManager.getIdSeq() == 0 || cacheManager.getIdSeq() == 0) {
+                    
+                }
+
+                cacheManager.insert(record.getOrigem() + ";" + record.getDestino() + ";" + record.getIdSeq(),
+                                    record.getTimeStamp() + ";" + record.getQntRecords() + ";" +
+                                    record.getKey().toString() + ";" + record.getValue().toString());
                 System.out.println("Record Recebido: " + record.toString());
             } catch (Exception e) {
                 e.printStackTrace();
-
-
             }
         }
     }

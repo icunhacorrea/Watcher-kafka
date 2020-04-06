@@ -5,11 +5,19 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.IgniteConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CacheManager {
 
     private Ignite ignite;
 
     private IgniteCache<String, String> cache;
+
+    private List<String> listRecived = new ArrayList<>();
+
+    private int idSeq = 0;
+    private int total = 0;
 
     public CacheManager() {
         IgniteConfiguration cfg = new IgniteConfiguration();
@@ -35,5 +43,38 @@ public class CacheManager {
 
     public int cacheSize() {
         return this.cache.size();
+    }
+
+    public void addRecived(String recieved) {
+
+        synchronized (listRecived){
+            System.out.println("Message with Key " + recieved + " inserting in list...");
+            listRecived.add(recieved);
+        }
+
+    }
+
+    public void dispatchList() {
+
+        synchronized (listRecived) {
+            System.out.println("Time to dispatch!");
+        }
+
+    }
+
+    public void setIdSeq(int idSeq) {
+        this.idSeq = idSeq;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getIdSeq() {
+        return idSeq;
+    }
+
+    public int getTotal() {
+        return total;
     }
 }

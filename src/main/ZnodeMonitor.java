@@ -1,12 +1,15 @@
 package main;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.zookeeper.AddWatchMode.PERSISTENT_RECURSIVE;
+
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.data.Stat;
-
-import java.io.IOException;
 
 public class ZnodeMonitor implements Watcher {
 
@@ -16,52 +19,35 @@ public class ZnodeMonitor implements Watcher {
 
     String znode;
 
+    String destiny;
+
     ZooKeeper zk;
 
-    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode) {
+    List<String> dataList;
+
+    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode, String destiny)
+            throws IOException, InterruptedException, KeeperException {
         this.cacheManager = cacheManager;
         this.zkUrl = zkUrl;
         this.znode = znode;
-
-        try {
-            this.zk = new ZooKeeper(this.zkUrl, 60000, this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.dataList = new ArrayList<>();
+        this.destiny = destiny;
+        zk = new ZooKeeper(zkUrl, 60000, this);
+        zk.addWatch(znode, this, PERSISTENT_RECURSIVE);
     }
 
     @Override
     public void process(WatchedEvent event) {
-        System.out.println(event);
-        String path = event.getPath();
-        System.out.println("Oiiii Caminho: " + path);
-
-        if (event.getType() == Event.EventType.None) {
-            switch (event.getState()) {
-                case SyncConnected:
-                    System.out.println("SyncConnected.");
-                    break;
-                case Expired:
-                    System.out.println("Expired.");
-                    break;
-                default:
-                    break;
+        //System.out.println(event.toString());
+        if (event.getType() == Event.EventType.NodeDataChanged) {
+            try {
+                byte[] bytes = zk.getData(event.getPath(), false, null);
+                String data = new String(bytes);
+                if (event.getPath().contains(destiny))
+                    cacheManager.addRecived(data);
+            } catch (InterruptedException | KeeperException e) {
+                e.printStackTrace();
             }
-        } else if (event.getType() == Event.EventType.NodeChildrenChanged) {
-            System.out.println("Um nó filho foi alterado.");
-        }
-
-        initWatch();
-    }
-
-    public void initWatch() {
-        try {
-            System.out.println("Init new watch.");
-            Stat stat = zk.exists(znode, this);
-            System.out.println(stat.toString());
-
-        } catch (KeeperException | InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
