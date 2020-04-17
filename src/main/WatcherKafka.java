@@ -13,17 +13,17 @@ public class WatcherKafka {
         int port = 6666;
 
         String zkHostPort = "127.0.0.1:2181";
-        String destiny = "test-topic";
         String znode = "/brokers/topics";
 
         CacheManager cacheManager = new CacheManager();
         SockerServer server = new SockerServer(6666, cacheManager);
-        ZnodeMonitor monitor = new ZnodeMonitor(cacheManager, zkHostPort, znode, destiny);
+        ZnodeMonitor monitor = new ZnodeMonitor(cacheManager, zkHostPort, znode);
 
         // Start server.
         server.start();
 
         while(true) {
+            // Ideia de disparar descarte.
             if (cacheManager.cacheSize() > 5) {
                 cacheManager.dispatchList();
             }

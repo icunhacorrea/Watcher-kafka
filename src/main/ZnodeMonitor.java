@@ -25,13 +25,12 @@ public class ZnodeMonitor implements Watcher {
 
     List<String> dataList;
 
-    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode, String destiny)
+    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode)
             throws IOException, InterruptedException, KeeperException {
         this.cacheManager = cacheManager;
         this.zkUrl = zkUrl;
         this.znode = znode;
         this.dataList = new ArrayList<>();
-        this.destiny = destiny;
         zk = new ZooKeeper(zkUrl, 60000, this);
         zk.addWatch(znode, this, PERSISTENT_RECURSIVE);
     }
@@ -43,7 +42,7 @@ public class ZnodeMonitor implements Watcher {
             try {
                 byte[] bytes = zk.getData(event.getPath(), false, null);
                 String data = new String(bytes);
-                if (event.getPath().contains(destiny))
+                if (event.getPath().contains("node"))
                     cacheManager.addRecived(data);
             } catch (InterruptedException | KeeperException e) {
                 e.printStackTrace();

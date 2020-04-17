@@ -34,7 +34,8 @@ public class SockerServer extends Thread {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Record record = (Record) ois.readObject();
 
-                if (cacheManager.getIdSeq() == 0 || cacheManager.getIdSeq() == 0) {
+                // Setar quantas mensagens estão vindo do produtor.
+                if (cacheManager.getIdSeq() == 0) {
                     
                 }
 
