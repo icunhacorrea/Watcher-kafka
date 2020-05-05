@@ -19,8 +19,6 @@ public class ZnodeMonitor implements Watcher {
 
     String znode;
 
-    String destiny;
-
     ZooKeeper zk;
 
     List<String> dataList;
@@ -37,13 +35,14 @@ public class ZnodeMonitor implements Watcher {
 
     @Override
     public void process(WatchedEvent event) {
-        //System.out.println(event.toString());
         if (event.getType() == Event.EventType.NodeDataChanged) {
             try {
                 byte[] bytes = zk.getData(event.getPath(), false, null);
                 String data = new String(bytes);
-                if (event.getPath().contains("node"))
+                if (event.getPath().contains("node")) {
+                    cacheManager.setIdSeq(Integer.parseInt(data.substring(data.lastIndexOf(";") + 1)));
                     cacheManager.addRecived(data);
+                }
             } catch (InterruptedException | KeeperException e) {
                 e.printStackTrace();
             }

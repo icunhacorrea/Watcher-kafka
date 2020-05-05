@@ -16,8 +16,7 @@ public class CacheManager {
 
     private List<String> listRecived = new ArrayList<>();
 
-    private int idSeq = 0;
-    private int total = 0;
+    private int idSeq = 0, total = -1;
 
     public CacheManager() {
         IgniteConfiguration cfg = new IgniteConfiguration();
@@ -51,15 +50,16 @@ public class CacheManager {
             System.out.println("Message with Key " + recieved + " inserting in list...");
             listRecived.add(recieved);
         }
-
     }
 
     public void dispatchList() {
 
         synchronized (listRecived) {
-            System.out.println("Time to dispatch!");
+            if (cacheSize() == 0)
+                return;
+            System.out.println("Start dispatching...");
+            listRecived.removeIf(l -> cache.remove(l));
         }
-
     }
 
     public void setIdSeq(int idSeq) {
@@ -77,4 +77,5 @@ public class CacheManager {
     public int getTotal() {
         return total;
     }
+
 }
