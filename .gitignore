@@ -1,3 +1,4 @@
 .idea/
-out
 Watcher-kafka.iml
+.out/*
+*.class
