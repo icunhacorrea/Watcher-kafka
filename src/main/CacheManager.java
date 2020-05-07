@@ -3,9 +3,11 @@ package main;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
+import org.apache.ignite.cache.query.ScanQuery;
 import org.apache.ignite.configuration.IgniteConfiguration;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CacheManager {
@@ -78,4 +80,7 @@ public class CacheManager {
         return total;
     }
 
+    public Collection<?> getAll() {
+        return cache.query(new ScanQuery<>()).getAll() ;
+    }
 }

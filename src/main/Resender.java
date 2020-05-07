@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
+import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +20,7 @@ public class Resender extends Thread {
         this.cacheManager = cacheManager;
         this.props = newConfig();
         this.producer = new KafkaProducer<>(props);
+
     }
 
     @Override
@@ -53,6 +55,16 @@ public class Resender extends Thread {
 
     private void reSend() {
         // Reenviar todos os itens presentes na cache!
+
+        if (cacheManager.cacheSize() == 0) {
+            System.out.println("Nenhum elemento precisa ser reenviado.");
+            return;
+        }
+
+        Collection<?> collection = cacheManager.getAll();
+        collection.forEach((entry) -> {
+            System.out.println(entry);
+        });
     }
 
     private static Properties newConfig() {
