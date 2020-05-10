@@ -42,6 +42,10 @@ public class CacheManager {
         this.cache.remove(key);
     }
 
+    public void removeAll() {
+        this.cache.clear();
+    }
+
     public int cacheSize() {
         return this.cache.size();
     }

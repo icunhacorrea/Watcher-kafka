@@ -7,7 +7,7 @@ public class WatcherKafka {
         int port = 6666;
 
         String zkHostPort = "127.0.0.1:2181";
-        String znode = "/brokers/topics/test-topic";
+        String znode = "/brokers/topics";
 
         CacheManager cacheManager = new CacheManager();
         SockerServer server = new SockerServer(6666, cacheManager);

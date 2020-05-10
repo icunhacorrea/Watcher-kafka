@@ -35,6 +35,7 @@ public class ZnodeMonitor implements Watcher {
 
     @Override
     public void process(WatchedEvent event) {
+        System.out.println(event.toString());
         if (event.getType() == Event.EventType.NodeDataChanged) {
             try {
                 byte[] bytes = zk.getData(event.getPath(), false, null);

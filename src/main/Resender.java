@@ -1,11 +1,10 @@
 package main;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.lang.IgniteBiTuple;
+import org.apache.kafka.clients.producer.*;
 
-import java.util.Collection;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Resender extends Thread {
@@ -16,6 +15,9 @@ public class Resender extends Thread {
 
     Producer<String, String> producer;
 
+    int DISPATCH_INTERVAL = 10;
+    int SIZE_CACHE_MAX = 5;
+
     public Resender(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
         this.props = newConfig();
@@ -25,16 +27,18 @@ public class Resender extends Thread {
 
     @Override
     public void run() {
-        long start = System.nanoTime();
         long stop;
         long convert = 0;
+        long start = System.nanoTime();
         while(true) {
+
             if (cacheManager.getTotal() != -1 &&
-                    (cacheManager.cacheSize() > 5) || convert > 10) {
+                    (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
                 cacheManager.dispatchList();
             }
             if (cacheManager.getIdSeq() == cacheManager.getTotal()) {
-                /* 1⁰ Despachar últimos recebidos;
+                /*  Entrar nesse laço significa que a produção de mensagens acabou.
+                *  1⁰ Despachar últimos recebidos;
                 *  2⁰ Reenviar restantes da cache.
                 * */
                 System.out.println("Produção finalizada, reenviar restantes.");
@@ -42,29 +46,45 @@ public class Resender extends Thread {
                 // Reinicializar valor de total.
                 cacheManager.setTotal(-1);
                 cacheManager.setIdSeq(0);
-                cacheManager.dispatchList();
-                System.out.println("Reenviando " + cacheManager.cacheSize() + " itens não recebidos.");
+                cacheManager.dispatchList();        // Força despache no que foi recebido.
                 reSend();
             }
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
             if (convert >  6)
                 start = System.nanoTime();
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void reSend() {
         // Reenviar todos os itens presentes na cache!
-
         if (cacheManager.cacheSize() == 0) {
             System.out.println("Nenhum elemento precisa ser reenviado.");
             return;
+        } else {
+            System.out.println("Reenviando " + cacheManager.cacheSize() + " itens não recebidos.");
         }
 
         Collection<?> collection = cacheManager.getAll();
-        collection.forEach((entry) -> {
-            System.out.println(entry);
+
+        collection.forEach(entry -> {
+            IgniteBiTuple<String,String> data = (IgniteBiTuple<String, String>) entry;
+            String value[] = data.get2().split(";");
+            ProducerRecord<String, String> record = new ProducerRecord<>("test-topic",
+                                                                         value[2], value[3]);
+            try {
+                RecordMetadata metadata = producer.send(record).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
+        System.out.println("*** Mensagens reenviadas. ***");
+        cacheManager.removeAll();
     }
 
     private static Properties newConfig() {
