@@ -4,8 +4,6 @@ public class WatcherKafka {
 
     public static void main(String args[]) throws Exception {
 
-        int port = 6666;
-
         String zkHostPort = "127.0.0.1:2181";
         String znode = "/brokers/topics";
 
@@ -16,6 +14,7 @@ public class WatcherKafka {
 
         // Start server.
         dispatcher.start();
+        monitor.start();
         server.start();
     }
 }

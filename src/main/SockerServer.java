@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+
 import recordutil.src.main.Record;
 
 
@@ -27,27 +29,34 @@ public class SockerServer extends Thread {
 
     public void startServer() {
         System.out.println("The watcher server is running...");
+        try {
+            listener.setReceiveBufferSize(Integer.MAX_VALUE);
 
-        while(true) {
-            try {
+            while(true) {
                 socket = listener.accept();
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Record record = (Record) ois.readObject();
+                /*List<Record> records = (List<Record>) ois.readObject();
+
+                for (Record record : records) {
+                    if (record.getIdSeq() == 1) {
+                        cacheManager.setTotal(record.getQntRecords());
+                    }
+                    cacheManager.insert(record.getOrigem() + ";" + record.getDestino() + ";" + record.getIdSeq(),
+                            record.getTimeStamp() + ";" + record.getQntRecords() + ";" +
+                            record.getKey().toString() + ";" + record.getValue().toString());
+                }*/
 
                 cacheManager.insert(record.getOrigem() + ";" + record.getDestino() + ";" + record.getIdSeq(),
-                                    record.getTimeStamp() + ";" + record.getQntRecords() + ";" +
-                                    record.getKey().toString() + ";" + record.getValue().toString());
+                        record.getTimeStamp() + ";" + record.getQntRecords() + ";" +
+                                record.getKey().toString() + ";" + record.getValue().toString());
                 System.out.println("Record Recebido: " + record.toString());
-
-                // Setar quantas mensagens estão vindo do produtor.
-
                 if (record.getIdSeq() == 1) {
                     cacheManager.setTotal(record.getQntRecords());
                 }
-                //cacheManager.setIdSeq(record.getIdSeq());
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

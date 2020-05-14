@@ -53,7 +53,7 @@ public class CacheManager {
     public void addRecived(String recieved) {
 
         synchronized (listRecived){
-            System.out.println("Message with Key " + recieved + " inserting in list...");
+            //System.out.println("Message with Key " + recieved + " inserting in list...");
             listRecived.add(recieved);
         }
     }
@@ -63,7 +63,7 @@ public class CacheManager {
         synchronized (listRecived) {
             if (cacheSize() == 0)
                 return;
-            System.out.println("Start dispatching...");
+            //System.out.println("Start dispatching...");
             listRecived.removeIf(l -> cache.remove(l));
         }
     }
