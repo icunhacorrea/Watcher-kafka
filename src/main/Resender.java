@@ -15,8 +15,8 @@ public class Resender extends Thread {
 
     Producer<String, String> producer;
 
-    int DISPATCH_INTERVAL = 30;
-    int SIZE_CACHE_MAX = 100;
+    int DISPATCH_INTERVAL = 4;
+    int SIZE_CACHE_MAX = 2;
 
     public Resender(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -36,6 +36,8 @@ public class Resender extends Thread {
                     (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
                 cacheManager.dispatchList();
             }
+            //System.out.println(cacheManager.getIdSeq());
+            //System.out.println(cacheManager.getTotal());
             if (cacheManager.getIdSeq() == cacheManager.getTotal()) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
                 *  1⁰ Despachar últimos recebidos;
@@ -51,16 +53,17 @@ public class Resender extends Thread {
             }
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
-            if (convert >  6)
+            if (convert >  DISPATCH_INTERVAL + 2)
                 start = System.nanoTime();
-            try {
+            /*try {
                 Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void reSend() {
         // Reenviar todos os itens presentes na cache!
         if (cacheManager.cacheSize() == 0) {
