@@ -1,12 +1,7 @@
 package main;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.apache.zookeeper.AddWatchMode.PERSISTENT_RECURSIVE;
 
-import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
@@ -15,36 +10,30 @@ public class ZnodeMonitor implements Watcher {
 
     CacheManager cacheManager;
 
-    String zkUrl;
-
-    String znode;
-
     ZooKeeper zk;
 
-    List<String> dataList;
+    int count = 0;
 
-    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode)
-            throws IOException, InterruptedException, KeeperException {
+    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode) throws Exception {
         this.cacheManager = cacheManager;
-        this.zkUrl = zkUrl;
-        this.znode = znode;
-        this.dataList = new ArrayList<>();
-        zk = new ZooKeeper(zkUrl, 60000, this);
-        zk.addWatch(znode, this, PERSISTENT_RECURSIVE);
+        this.zk = new ZooKeeper(zkUrl, 60000, this);
+        this.zk.addWatch(znode, this, PERSISTENT_RECURSIVE);
     }
 
     @Override
     public void process(WatchedEvent event) {
-        System.out.println(event.toString());
-        if (event.getType() == Event.EventType.NodeDataChanged) {
+        //System.out.println(event.toString());
+        if (event.getType() == Event.EventType.NodeDataChanged &&
+			event.getPath().contains("node")) {
             try {
+		count += 1;
                 byte[] bytes = zk.getData(event.getPath(), false, null);
                 String data = new String(bytes);
-                if (event.getPath().contains("node")) {
-                    cacheManager.setIdSeq(Integer.parseInt(data.substring(data.lastIndexOf(";") + 1)));
-                    cacheManager.addRecived(data);
-                }
-            } catch (InterruptedException | KeeperException e) {
+		int idSeq = Integer.parseInt(data.substring(data.lastIndexOf(";") + 1));
+	        cacheManager.setIdSeq(idSeq);
+	        cacheManager.addRecived(data);
+		System.out.println("Count -> " + count);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

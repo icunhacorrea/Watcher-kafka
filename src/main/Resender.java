@@ -15,8 +15,8 @@ public class Resender extends Thread {
 
     Producer<String, String> producer;
 
-    int DISPATCH_INTERVAL = 10;
-    int SIZE_CACHE_MAX = 5;
+    int DISPATCH_INTERVAL = 6;
+    int SIZE_CACHE_MAX = 50;
 
     public Resender(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -33,7 +33,7 @@ public class Resender extends Thread {
         while(true) {
 
             if (cacheManager.getTotal() != -1 &&
-                    (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
+                    (cacheManager.cacheSize() >= SIZE_CACHE_MAX || convert >= DISPATCH_INTERVAL)) {
                 cacheManager.dispatchList();
             }
             if (cacheManager.getIdSeq() == cacheManager.getTotal()) {
@@ -44,23 +44,26 @@ public class Resender extends Thread {
                 System.out.println("Produção finalizada, reenviar restantes.");
 
                 // Reinicializar valor de total.
-                cacheManager.setTotal(-1);
-                cacheManager.setIdSeq(0);
+                
                 cacheManager.dispatchList();        // Força despache no que foi recebido.
                 reSend();
+		cacheManager.setTotal(-1);
+                cacheManager.setIdSeq(0);
+		System.out.println("**************************************************************");
             }
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
-            if (convert >  6)
+            if (convert >  DISPATCH_INTERVAL + 2)
                 start = System.nanoTime();
-            try {
+            /*try {
                 Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void reSend() {
         // Reenviar todos os itens presentes na cache!
         if (cacheManager.cacheSize() == 0) {
@@ -73,7 +76,7 @@ public class Resender extends Thread {
         Collection<?> collection = cacheManager.getAll();
 
         collection.forEach(entry -> {
-            IgniteBiTuple<String,String> data = (IgniteBiTuple<String, String>) entry;
+            IgniteBiTuple<String, String> data = (IgniteBiTuple<String, String>) entry;
             String value[] = data.get2().split(";");
             ProducerRecord<String, String> record = new ProducerRecord<>("test-topic",
                                                                          value[2], value[3]);
@@ -89,7 +92,7 @@ public class Resender extends Thread {
 
     private static Properties newConfig() {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "14.0.0.1:9092,14.0.0.3:9092,14.0.0.6:9092");
         props.put(ProducerConfig.ACKS_CONFIG, "0");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");

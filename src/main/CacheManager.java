@@ -23,11 +23,8 @@ public class CacheManager {
     public CacheManager() {
         IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setClientMode(false);
-        ignite = Ignition.start(cfg);
-        cache = ignite.getOrCreateCache("cache");
-
-        this.ignite = ignite;
-        this.cache = cache;
+        this.ignite = Ignition.start(cfg);
+        this.cache = ignite.getOrCreateCache("cache");
     }
 
     public void insert(String key, String value) {
@@ -53,7 +50,7 @@ public class CacheManager {
     public void addRecived(String recieved) {
 
         synchronized (listRecived){
-            System.out.println("Message with Key " + recieved + " inserting in list...");
+            //System.out.println("Message with Key " + recieved + " inserting in list...");
             listRecived.add(recieved);
         }
     }
@@ -63,7 +60,7 @@ public class CacheManager {
         synchronized (listRecived) {
             if (cacheSize() == 0)
                 return;
-            System.out.println("Start dispatching...");
+            //System.out.println("Start dispatching...");
             listRecived.removeIf(l -> cache.remove(l));
         }
     }
@@ -88,3 +85,4 @@ public class CacheManager {
         return cache.query(new ScanQuery<>()).getAll() ;
     }
 }
+
