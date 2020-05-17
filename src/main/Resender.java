@@ -16,6 +16,8 @@ public class Resender extends Thread {
 
     int SIZE_CACHE_MAX = 10;
 
+    int TIMEOUT = 300000;
+
     public Resender(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
         this.props = newConfig();
@@ -35,7 +37,9 @@ public class Resender extends Thread {
                     cacheManager.cacheSize() >= SIZE_CACHE_MAX) {
                 cacheManager.dispatchList();
             }
-            if (cacheManager.getCount() == cacheManager.getTotal()) {
+            if (cacheManager.getCount() == cacheManager.getTotal() ||
+                    (cacheManager.getSocketFinish() &&
+                    (System.currentTimeMillis() - cacheManager.getTimeout() > TIMEOUT))) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
                 *  1⁰ Despachar últimos recebidos;
                 *  2⁰ Reenviar restantes da cache.
@@ -48,6 +52,8 @@ public class Resender extends Thread {
                 reSend();
 		        cacheManager.setTotal(-1);
                 cacheManager.setIdSeq(0);
+                cacheManager.stopTimeout();
+                cacheManager.setSocketFinish(false);
 		        System.out.println("**************************************************************");
             }
             try {

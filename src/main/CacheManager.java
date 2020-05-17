@@ -9,6 +9,7 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CacheManager {
 
@@ -23,6 +24,10 @@ public class CacheManager {
     private String destino;
 
     private String origem;
+
+    private AtomicBoolean socketFinish;
+
+    private Long timeoutProduce;
 
     public CacheManager() {
         IgniteConfiguration cfg = new IgniteConfiguration();
@@ -111,6 +116,26 @@ public class CacheManager {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public void setSocketFinish(Boolean finished) {
+        this.socketFinish.set(finished);
+    }
+
+    public boolean getSocketFinish() {
+        return this.socketFinish.get();
+    }
+
+    public long getTimeout() {
+        return this.timeoutProduce;
+    }
+
+    public void startTimeout() {
+        this.timeoutProduce = System.currentTimeMillis();
+    }
+
+    public void stopTimeout() {
+        this.timeoutProduce = 0L;
     }
 }
 

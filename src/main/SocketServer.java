@@ -49,6 +49,8 @@ public class SocketServer extends Thread {
                         cacheManager.setTotal(record.getQntRecords());
                         cacheManager.setOrigem(record.getOrigem());
                         cacheManager.setDestino(record.getDestino());
+                    } else if (record.getIdSeq() == record.getQntRecords()) {
+                        cacheManager.setSocketFinish(true);
                     }
                 }
             }
