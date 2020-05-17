@@ -25,23 +25,17 @@ public class ZnodeMonitor implements Watcher {
         if (event.getType() == Event.EventType.NodeCreated &&
 			event.getPath().contains("node")) {
             try {
-		    String pathToCast = event.getPath().substring(event.getPath().lastIndexOf("/") + 1);
-		    if (!pathToCast.contains("node")) {
-			    count += 1;
-			    int idSeq = Integer.parseInt(pathToCast);
-			    cacheManager.setIdSeq(idSeq);
-			    cacheManager.addRecived(idSeq);
-			    if (idSeq == cacheManager.getTotal())
-				count = 0;
-			    System.out.println("Count -> " + count);
-		    }
+                count += 1;
+                byte[] bytes = zk.getData(event.getPath(), false, null);
+                cacheManager.setIdSeq(Integer.parseInt(new String(bytes)));
+                cacheManager.addRecived(count);
+                cacheManager.setCount(count);
+                if (count == cacheManager.getTotal())  {
+                    count = 0;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    void setCount(int count) {
-        this.count = count;
     }
 }

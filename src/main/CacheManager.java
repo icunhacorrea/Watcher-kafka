@@ -18,7 +18,7 @@ public class CacheManager {
 
     private List<Integer> listRecived = new ArrayList<>();
 
-    private int idSeq = 0, total = -1;
+    private int idSeq = 0, total = -1, count = 0;
 
     private String destino;
 
@@ -103,6 +103,14 @@ public class CacheManager {
 
     public String getOrigem() {
         return origem;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }
 

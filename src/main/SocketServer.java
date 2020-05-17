@@ -45,6 +45,7 @@ public class SocketServer extends Thread {
                             record.getKey() + ";" + record.getValue());
                     if (record.getIdSeq() == 1) {
                         System.out.println("Iniciando nova produção.");
+                        System.out.println("Quantidade de mensagens esperadas: " + record.getQntRecords());
                         cacheManager.setTotal(record.getQntRecords());
                         cacheManager.setOrigem(record.getOrigem());
                         cacheManager.setDestino(record.getDestino());
