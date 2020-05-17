@@ -39,14 +39,16 @@ public class SocketServer extends Thread {
                 Vector<Record> records = (Vector<Record>) ois.readObject();
 
                 for (Record record : records) {
-		            System.out.println("Record Recebido: " + record.toString());
+                    //System.out.println("Record Recebido: " + record.toString());
                     cacheManager.insert(record.getOrigem() + ";" + record.getDestino() + ";" +
                             record.getIdSeq(), record.getTimeStamp() + ";" + record.getQntRecords() + ";" +
-                            record.getKey().toString() + ";" + record.getValue().toString());
+                            record.getKey() + ";" + record.getValue());
                     if (record.getIdSeq() == 1) {
+                        System.out.println("Iniciando nova produção.");
                         cacheManager.setTotal(record.getQntRecords());
+                        cacheManager.setOrigem(record.getOrigem());
+                        cacheManager.setDestino(record.getDestino());
                     }
-                    cacheManager.setIdSeq(record.getIdSeq());
                 }
             }
         } catch (Exception e) {

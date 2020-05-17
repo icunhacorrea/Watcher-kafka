@@ -16,9 +16,13 @@ public class CacheManager {
 
     private IgniteCache<String, String> cache;
 
-    private List<String> listRecived = new ArrayList<>();
+    private List<Integer> listRecived = new ArrayList<>();
 
     private int idSeq = 0, total = -1;
+
+    private String destino;
+
+    private String origem;
 
     public CacheManager() {
         IgniteConfiguration cfg = new IgniteConfiguration();
@@ -47,9 +51,10 @@ public class CacheManager {
         return this.cache.size();
     }
 
-    public void addRecived(String recieved) {
+    public void addRecived(Integer recieved) {
 
         synchronized (listRecived){
+            setIdSeq(recieved);
             System.out.println("Message with Key " + recieved + " inserting in list...");
             listRecived.add(recieved);
         }
@@ -60,8 +65,7 @@ public class CacheManager {
         synchronized (listRecived) {
             if (cacheSize() == 0)
                 return;
-            System.out.println("Start dispatching...");
-            listRecived.removeIf(l -> cache.remove(l));
+            listRecived.removeIf(l -> cache.remove(origem + ";" + destino + ";" + l));
         }
     }
 
@@ -84,4 +88,21 @@ public class CacheManager {
     public Collection<?> getAll() {
         return cache.query(new ScanQuery<>()).getAll() ;
     }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
 }
+

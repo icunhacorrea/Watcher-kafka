@@ -1,6 +1,5 @@
 package main;
 
-import org.apache.ignite.Ignite;
 import org.apache.ignite.lang.IgniteBiTuple;
 import org.apache.kafka.clients.producer.*;
 
@@ -16,7 +15,7 @@ public class Resender extends Thread {
     Producer<String, String> producer;
 
     int DISPATCH_INTERVAL = 4;
-    int SIZE_CACHE_MAX = 2;
+    int SIZE_CACHE_MAX = 10;
 
     public Resender(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -31,13 +30,12 @@ public class Resender extends Thread {
         long convert = 0;
         long start = System.nanoTime();
         while(true) {
-
-            if (cacheManager.getTotal() != -1 &&
-                    (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
-                cacheManager.dispatchList();
-            }
             //System.out.println(cacheManager.getIdSeq());
             //System.out.println(cacheManager.getTotal());
+            if (cacheManager.getTotal() != -1 &&
+                    (cacheManager.cacheSize() >= SIZE_CACHE_MAX || convert >= DISPATCH_INTERVAL)) {
+                cacheManager.dispatchList();
+            }
             if (cacheManager.getIdSeq() == cacheManager.getTotal()) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
                 *  1⁰ Despachar últimos recebidos;
@@ -46,17 +44,19 @@ public class Resender extends Thread {
                 System.out.println("Produção finalizada, reenviar restantes.");
 
                 // Reinicializar valor de total.
-                cacheManager.setTotal(-1);
-                cacheManager.setIdSeq(0);
+                
                 cacheManager.dispatchList();        // Força despache no que foi recebido.
                 reSend();
+		        cacheManager.setTotal(-1);
+                cacheManager.setIdSeq(0);
+		        System.out.println("**************************************************************");
             }
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
             if (convert >  DISPATCH_INTERVAL + 2)
                 start = System.nanoTime();
             /*try {
-                Thread.sleep(6000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }*/
@@ -76,7 +76,7 @@ public class Resender extends Thread {
         Collection<?> collection = cacheManager.getAll();
 
         collection.forEach(entry -> {
-            IgniteBiTuple<String,String> data = (IgniteBiTuple<String, String>) entry;
+            IgniteBiTuple<String, String> data = (IgniteBiTuple<String, String>) entry;
             String value[] = data.get2().split(";");
             ProducerRecord<String, String> record = new ProducerRecord<>("test-topic",
                                                                          value[2], value[3]);
@@ -92,7 +92,7 @@ public class Resender extends Thread {
 
     private static Properties newConfig() {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "14.0.0.1:9092,14.0.0.3:9092,14.0.0.6:9092");
         props.put(ProducerConfig.ACKS_CONFIG, "0");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
