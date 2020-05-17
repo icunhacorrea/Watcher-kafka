@@ -55,7 +55,7 @@ public class CacheManager {
 
         synchronized (listRecived){
             setIdSeq(recieved);
-            System.out.println("Message with Key " + recieved + " inserting in list...");
+            //System.out.println("Message with Key " + recieved + " inserting in list...");
             listRecived.add(recieved);
         }
     }
