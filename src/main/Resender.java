@@ -15,8 +15,13 @@ public class Resender extends Thread {
 
     Producer<String, String> producer;
 
+<<<<<<< HEAD
     int DISPATCH_INTERVAL = 6;
     int SIZE_CACHE_MAX = 50;
+=======
+    int DISPATCH_INTERVAL = 30;
+    int SIZE_CACHE_MAX = 100;
+>>>>>>> 3fd7c7dd535f3abfa1fe3c84cde3d3b4d9e87c06
 
     public Resender(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
