@@ -25,9 +25,11 @@ public class CacheManager {
 
     private String origem;
 
-    private AtomicBoolean socketFinish;
+    private AtomicBoolean socketFinish = new AtomicBoolean(false);
 
-    private Long timeoutProduce;
+    private AtomicBoolean monitorFinish = new AtomicBoolean(false);
+
+    private long timeoutProduce = 0L;
 
     public CacheManager() {
         IgniteConfiguration cfg = new IgniteConfiguration();
@@ -124,6 +126,14 @@ public class CacheManager {
 
     public boolean getSocketFinish() {
         return this.socketFinish.get();
+    }
+
+    public void setMonitorFinish(Boolean finished) {
+        this.monitorFinish.set(finished);
+    }
+
+    public boolean getMonitorFinish() {
+        return this.monitorFinish.get();
     }
 
     public long getTimeout() {

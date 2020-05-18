@@ -11,7 +11,7 @@ public class ZnodeMonitor implements Watcher {
 
     ZooKeeper zk;
 
-    private int count = 0;
+    int count = 0;
 
     public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode) throws Exception {
         this.cacheManager = cacheManager;
@@ -27,10 +27,16 @@ public class ZnodeMonitor implements Watcher {
             try {
                 count += 1;
                 byte[] bytes = zk.getData(event.getPath(), false, null);
-                cacheManager.setIdSeq(Integer.parseInt(new String(bytes)));
-                cacheManager.addRecived(count);
+		int idSeq = Integer.parseInt(new String(bytes));
+		//System.out.println("IdSeq: " + idSeq);
+		//System.out.println("Count: " + count);
+		//System.out.println("*********************");
+                cacheManager.setIdSeq(idSeq);
+                cacheManager.addRecived(idSeq);
                 cacheManager.setCount(count);
                 if (count == cacheManager.getTotal())  {
+		    cacheManager.setMonitorFinish(true);
+		    cacheManager.setCount(0);
                     count = 0;
                 }
             } catch (Exception e) {

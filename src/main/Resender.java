@@ -15,6 +15,7 @@ public class Resender extends Thread {
     Producer<String, String> producer;
 
     int SIZE_CACHE_MAX = 10;
+    int DISPATCH_INTERVAL = 10;
 
     int TIMEOUT = 300000;
 
@@ -31,15 +32,18 @@ public class Resender extends Thread {
         long convert = 0;
         long start = System.nanoTime();
         while(true) {
-            //System.out.println(cacheManager.getIdSeq());
-            //System.out.println(cacheManager.getTotal());
+            //System.out.println("IdSeq: " + cacheManager.getIdSeq());
+            //System.out.println("Total: " +cacheManager.getTotal());
+	    //System.out.println("Count: " + cacheManager.getCount());
+	    //System.out.println("*******************************************");
             if (cacheManager.getTotal() != -1 &&
-                    cacheManager.cacheSize() >= SIZE_CACHE_MAX) {
+                    (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
                 cacheManager.dispatchList();
             }
-            if (cacheManager.getCount() == cacheManager.getTotal() ||
+	    long stamp = System.currentTimeMillis();
+            if ((cacheManager.getSocketFinish() && cacheManager.getMonitorFinish()) ||
                     (cacheManager.getSocketFinish() &&
-                    (System.currentTimeMillis() - cacheManager.getTimeout() > TIMEOUT))) {
+                    (stamp - cacheManager.getTimeout() > TIMEOUT))) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
                 *  1⁰ Despachar últimos recebidos;
                 *  2⁰ Reenviar restantes da cache.
@@ -50,17 +54,22 @@ public class Resender extends Thread {
                 
                 cacheManager.dispatchList();        // Força despache no que foi recebido.
                 reSend();
-		        cacheManager.setTotal(-1);
+		cacheManager.setTotal(-1);
                 cacheManager.setIdSeq(0);
                 cacheManager.stopTimeout();
                 cacheManager.setSocketFinish(false);
-		        System.out.println("**************************************************************");
+		cacheManager.setMonitorFinish(false);
+		System.out.println("**************************************************************");
             }
-            try {
+	    stop = System.nanoTime();
+            convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
+            if (convert >  6)
+                start = System.nanoTime();
+            /*try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 

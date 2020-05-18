@@ -3,6 +3,7 @@ package main;
 public class WatcherKafka {
 
     public static void main(String args[]) throws Exception {
+
         //String zkHostPort = "14.0.0.1:2181,14.0.0.3:2181,14.0.0.6:2181";
         String zkHostPort = "localhost:2181";
 
