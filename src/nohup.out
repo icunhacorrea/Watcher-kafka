@@ -1,0 +1,178 @@
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.apache.ignite.internal.util.GridUnsafe$2 (file:/home/lsc/workspace/Watcher-kafka/jars/ignite-core-2.7.6.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of org.apache.ignite.internal.util.GridUnsafe$2
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+mai 18, 2020 12:07:22 AM org.apache.ignite.logger.java.JavaLogger warning
+ADVERTÊNCIA: Failed to resolve default logging config file: config/java.util.logging.properties
+[00:07:23]    __________  ________________ 
+[00:07:23]   /  _/ ___/ |/ /  _/_  __/ __/ 
+[00:07:23]  _/ // (7 7    // /  / / / _/   
+[00:07:23] /___/\___/_/|_/___/ /_/ /___/  
+[00:07:23] 
+[00:07:23] ver. 2.7.6#20190911-sha1:21f7ca41
+[00:07:23] 2019 Copyright(C) Apache Software Foundation
+[00:07:23] 
+[00:07:23] Ignite documentation: http://ignite.apache.org
+[00:07:23] 
+[00:07:23] Quiet mode.
+[00:07:23]   ^-- Logging by 'JavaLogger [quiet=true, config=null]'
+[00:07:23]   ^-- To see **FULL** console log here add -DIGNITE_QUIET=false or "-v" to ignite.{sh|bat}
+[00:07:23] 
+[00:07:23] OS: Linux 5.4.0-3-amd64 amd64
+[00:07:23] VM information: OpenJDK Runtime Environment 11.0.6+10-post-Debian-1 Debian OpenJDK 64-Bit Server VM 11.0.6+10-post-Debian-1
+[00:07:23] Please set system property '-Djava.net.preferIPv4Stack=true' to avoid possible problems in mixed environments.
+[00:07:23] Initial heap size is 124MB (should be no less than 512MB, use -Xms512m -Xmx512m).
+[00:07:23] Configured plugins:
+[00:07:23]   ^-- None
+[00:07:23] 
+[00:07:23] Configured failure handler: [hnd=StopNodeOrHaltFailureHandler [tryStop=false, timeout=0, super=AbstractFailureHandler [ignoredFailureTypes=[SYSTEM_WORKER_BLOCKED, SYSTEM_CRITICAL_OPERATION_TIMEOUT]]]]
+[00:07:23] Message queue limit is set to 0 which may lead to potential OOMEs when running cache operations in FULL_ASYNC or PRIMARY_SYNC modes due to message queues growth on sender and receiver sides.
+[00:07:23] Security status [authentication=off, tls/ssl=off]
+[00:07:25] Performance suggestions for grid  (fix if possible)
+[00:07:25] To disable, set -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+[00:07:25]   ^-- Switch to the most recent 1.8 JVM version
+[00:07:25]   ^-- Specify JVM heap max size (add '-Xmx<size>[g|G|m|M|k|K]' to JVM options)
+[00:07:25]   ^-- Set max direct memory size if getting 'OOME: Direct buffer memory' (add '-XX:MaxDirectMemorySize=<size>[g|G|m|M|k|K]' to JVM options)
+[00:07:25]   ^-- Disable processing of calls to System.gc() (add '-XX:+DisableExplicitGC' to JVM options)
+[00:07:25] Refer to this page for more performance suggestions: https://apacheignite.readme.io/docs/jvm-and-system-tuning
+[00:07:25] 
+[00:07:25] To start Console Management & Monitoring run ignitevisorcmd.{sh|bat}
+[00:07:25] Data Regions Configured:
+[00:07:25]   ^-- default [initSize=256,0 MiB, maxSize=1,5 GiB, persistence=false]
+[00:07:25] 
+[00:07:25] Ignite node started OK (id=e0b1bb4a)
+[00:07:25] Topology snapshot [ver=1, locNode=e0b1bb4a, servers=1, clients=0, state=ACTIVE, CPUs=4, offheap=1.5GB, heap=1.9GB]
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+The watcher server is running...
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Reenviando 1641 itens não recebidos.
+*** Mensagens reenviadas. ***
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Reenviando 220 itens não recebidos.
+*** Mensagens reenviadas. ***
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Reenviando 148 itens não recebidos.
+*** Mensagens reenviadas. ***
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Reenviando 93 itens não recebidos.
+*** Mensagens reenviadas. ***
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Produção finalizada, reenviar restantes.
+Nenhum elemento precisa ser reenviado.
+**************************************************************
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+Iniciando nova produção.
+Quantidade de mensagens esperadas: 50000
+[12:35:16] Ignite node stopped OK [uptime=12:27:51.180]
