@@ -65,11 +65,11 @@ public class Resender extends Thread {
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
             if (convert >  6)
                 start = System.nanoTime();
-            /*try {
+            try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
     }
 
