@@ -35,7 +35,7 @@ public class CacheManager {
         IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setClientMode(false);
         this.ignite = Ignition.start(cfg);
-        this.cache = ignite.getOrCreateCache("cache");
+        this.cache = ignite.createCache("cache");
     }
 
     public void insert(String key, String value) {
@@ -146,6 +146,10 @@ public class CacheManager {
 
     public void stopTimeout() {
         this.timeoutProduce = 0L;
+    }
+
+    public String cacheToString() {
+        return this.cache.toString();
     }
 }
 

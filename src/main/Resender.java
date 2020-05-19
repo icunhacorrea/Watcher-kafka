@@ -14,8 +14,8 @@ public class Resender extends Thread {
 
     Producer<String, String> producer;
 
-    int SIZE_CACHE_MAX = 10;
-    int DISPATCH_INTERVAL = 10;
+    int SIZE_CACHE_MAX = 500;
+    int DISPATCH_INTERVAL = 60;
 
     int TIMEOUT = 300000;
 
@@ -34,13 +34,17 @@ public class Resender extends Thread {
         while(true) {
             //System.out.println("IdSeq: " + cacheManager.getIdSeq());
             //System.out.println("Total: " +cacheManager.getTotal());
-	    //System.out.println("Count: " + cacheManager.getCount());
-	    //System.out.println("*******************************************");
+	        //System.out.println("Count: " + cacheManager.getCount());
+            //System.out.println("Socket: " + cacheManager.getSocketFinish());
+            //System.out.println("Monitor: " + cacheManager.getMonitorFinish());
+            System.out.println("Tamanho da cache: " + cacheManager.cacheSize());
+            System.out.println("To string: " + cacheManager.cacheToString());
+	        //System.out.println("*******************************************");
             if (cacheManager.getTotal() != -1 &&
                     (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
                 cacheManager.dispatchList();
             }
-	    long stamp = System.currentTimeMillis();
+	        long stamp = System.currentTimeMillis();
             if ((cacheManager.getSocketFinish() && cacheManager.getMonitorFinish()) ||
                     (cacheManager.getSocketFinish() &&
                     (stamp - cacheManager.getTimeout() > TIMEOUT))) {
@@ -54,14 +58,14 @@ public class Resender extends Thread {
                 
                 cacheManager.dispatchList();        // Força despache no que foi recebido.
                 reSend();
-		cacheManager.setTotal(-1);
+		        cacheManager.setTotal(-1);
                 cacheManager.setIdSeq(0);
                 cacheManager.stopTimeout();
                 cacheManager.setSocketFinish(false);
-		cacheManager.setMonitorFinish(false);
-		System.out.println("**************************************************************");
+		        cacheManager.setMonitorFinish(false);
+		        System.out.println("**************************************************************");
             }
-	    stop = System.nanoTime();
+	        stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
             if (convert >  6)
                 start = System.nanoTime();
@@ -102,7 +106,8 @@ public class Resender extends Thread {
 
     private static Properties newConfig() {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "14.0.0.1:9092,14.0.0.3:9092,14.0.0.6:9092");
+        //props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "14.0.0.1:9092,14.0.0.3:9092,14.0.0.6:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         props.put(ProducerConfig.ACKS_CONFIG, "0");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
