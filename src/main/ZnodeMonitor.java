@@ -31,16 +31,21 @@ public class ZnodeMonitor extends Thread {
                         byte[] bytes;
                         try {
                             bytes = zk.getData(event.getPath(), false, null);
-                            int idSeq = Integer.parseInt(new String(bytes));
-                            //System.out.println("IdSeq: " + idSeq);
-                            //System.out.println("Count: " + count);
-                            //System.out.println("*********************");
-                            cacheManager.setIdSeq(idSeq);
+                            String data = new String(bytes);
+                            int idSeq = Integer.parseInt(data.split(";")[0]);
+                            int total = Integer.parseInt(data.split(";")[1]);
                             cacheManager.addRecived(idSeq);
-                            cacheManager.setCount(count);
-                            if (count == cacheManager.getTotal())  {
+
+                            //System.out.println("Count: " + count);
+
+                            if ((idSeq + 3 >= total) && cacheManager.getTimeout() == Long.MAX_VALUE) {
+                                System.out.println("Proximo de receber a ultima.");
+                                cacheManager.startTimeout();
+                            }
+                            if (idSeq == cacheManager.getTotal())
                                 cacheManager.setMonitorFinish(true);
-                                cacheManager.setCount(0);
+                            if (cacheManager.getTotal() == -1) {
+                                cacheManager.setTotal(total);
                                 count = 0;
                             }
                         } catch (Exception e) {

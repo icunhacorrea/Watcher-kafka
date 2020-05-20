@@ -19,7 +19,7 @@ public class CacheManager {
 
     private List<Integer> listRecived = new ArrayList<>();
 
-    private int idSeq = 0, total = -1, count = 0;
+    private int idSeq = 0, total = -1;
 
     private String destino;
 
@@ -29,13 +29,15 @@ public class CacheManager {
 
     private AtomicBoolean monitorFinish = new AtomicBoolean(false);
 
-    private long timeoutProduce = 0L;
+    private long timeoutProduce = Long.MAX_VALUE;
 
-    public CacheManager() {
+    public CacheManager(String destino, String origem) {
         IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setClientMode(false);
         this.ignite = Ignition.start(cfg);
         this.cache = ignite.createCache("cache");
+        this.destino = destino;
+        this.origem = origem;
     }
 
     public void insert(String key, String value) {
@@ -61,8 +63,8 @@ public class CacheManager {
     public void addRecived(Integer recieved) {
 
         synchronized (listRecived){
-            setIdSeq(recieved);
             //System.out.println("Message with Key " + recieved + " inserting in list...");
+            //System.out.println(origem + ";" + destino + ";" + recieved);
             listRecived.add(recieved);
         }
     }
@@ -70,10 +72,19 @@ public class CacheManager {
     public void dispatchList() {
 
         synchronized (listRecived) {
+            System.out.println("Dispatching...");
             if (cacheSize() == 0)
                 return;
             listRecived.removeIf(l -> cache.remove(origem + ";" + destino + ";" + l));
         }
+    }
+
+    public int getRecievedSize() {
+        return listRecived.size();
+    }
+
+    public void clearRecieved() {
+        listRecived.clear();
     }
 
     public void setIdSeq(int idSeq) {
@@ -104,28 +115,8 @@ public class CacheManager {
         this.destino = destino;
     }
 
-    public String getDestino() {
-        return destino;
-    }
-
-    public String getOrigem() {
-        return origem;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public void setSocketFinish(Boolean finished) {
         this.socketFinish.set(finished);
-    }
-
-    public boolean getSocketFinish() {
-        return this.socketFinish.get();
     }
 
     public void setMonitorFinish(Boolean finished) {
@@ -145,7 +136,7 @@ public class CacheManager {
     }
 
     public void stopTimeout() {
-        this.timeoutProduce = 0L;
+        this.timeoutProduce = Long.MAX_VALUE;
     }
 
     public String cacheToString() {

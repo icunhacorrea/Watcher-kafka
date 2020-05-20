@@ -9,18 +9,19 @@ public class WatcherKafka {
 
         String znode = "/brokers/topics";
 
-        CacheManager cacheManager = new CacheManager();
-        SocketServer server = new SocketServer(6666, cacheManager);
+        CacheManager cacheManager = new CacheManager("test-topic", "producer-1");
         ZnodeMonitor monitor = new ZnodeMonitor(cacheManager, zkHostPort, znode);
         Resender dispatcher = new Resender(cacheManager);
 
-        monitor.setPriority(10);
-        server.setPriority(4);
-        dispatcher.setPriority(4);
+        //SocketServer server = new SocketServer(6666, cacheManager);
+
+        //monitor.setPriority(10);
+        //server.setPriority(4);
+        //dispatcher.setPriority(4);
 
         // Start server.
         monitor.start();
         dispatcher.start();
-        server.start();
+        //server.start();
     }
 }
