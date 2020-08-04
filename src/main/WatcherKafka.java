@@ -9,6 +9,8 @@ public class WatcherKafka {
 
         String znode = "/brokers/topics";
 
+        Thread.sleep(60000);
+
         CacheManager cacheManager = new CacheManager("test-topic", "producer-1");
         ZnodeMonitor monitor = new ZnodeMonitor(cacheManager, zkHostPort, znode);
         Resender dispatcher = new Resender(cacheManager);
