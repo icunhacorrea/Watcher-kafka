@@ -26,7 +26,7 @@ public class ZnodeMonitor extends Thread {
                 @Override
                 public void process(WatchedEvent event) {
                     if (event.getType() == Event.EventType.NodeCreated &&
-                            event.getPath().contains("node")) {
+                            event.getPath().contains("produce")) {
                         count += 1;
                         byte[] bytes;
                         try {
