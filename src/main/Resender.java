@@ -37,15 +37,13 @@ public class Resender extends Thread {
             System.out.println("Tamanho da cache: " + cacheManager.cacheSize());
             System.out.println("Tamanho da recived: " + cacheManager.getRecievedSize());
             //System.out.println("To string: " + cacheManager.cacheToString());
-            if (cacheManager.getTotal() != -1 &&
-                    (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL)) {
+            if (mayDispatch(convert)) {
                 cacheManager.dispatchList();
             }
 	        long stamp = System.currentTimeMillis();
             System.out.println("Stamp: " + (stamp - cacheManager.getTimeout()));
             System.out.println("*******************************************");
-            if (cacheManager.getMonitorFinish() &&
-                    (stamp - cacheManager.getTimeout() > TIMEOUT)) {
+            if (finishProduce(stamp)) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
                 *  1⁰ Despachar últimos recebidos;
                 *  2⁰ Reenviar restantes da cache.
@@ -111,5 +109,18 @@ public class Resender extends Thread {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         return props;
+    }
+
+    /**
+     * Método que define se é possível realizar dispache
+     * **/
+    private boolean mayDispatch(long convert) {
+        return cacheManager.getTotal() != -1 &&
+                (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL);
+    }
+
+    private boolean finishProduce(long stamp) {
+        return cacheManager.getMonitorFinish() &&
+                (stamp - cacheManager.getTimeout() > TIMEOUT);
     }
 }

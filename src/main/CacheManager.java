@@ -25,8 +25,6 @@ public class CacheManager {
 
     private String origem;
 
-    private AtomicBoolean socketFinish = new AtomicBoolean(false);
-
     private AtomicBoolean monitorFinish = new AtomicBoolean(false);
 
     private long timeoutProduce = Long.MAX_VALUE;
