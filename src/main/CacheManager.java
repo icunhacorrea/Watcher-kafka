@@ -107,18 +107,6 @@ public class CacheManager {
         return cache.query(new ScanQuery<>()).getAll() ;
     }
 
-    public void setOrigem(String origem) {
-        this.origem = origem;
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
-    }
-
-    public void setSocketFinish(Boolean finished) {
-        this.socketFinish.set(finished);
-    }
-
     public void setMonitorFinish(Boolean finished) {
         this.monitorFinish.set(finished);
     }

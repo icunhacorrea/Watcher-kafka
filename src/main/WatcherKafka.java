@@ -13,15 +13,7 @@ public class WatcherKafka {
         ZnodeMonitor monitor = new ZnodeMonitor(cacheManager, zkHostPort, znode);
         Resender dispatcher = new Resender(cacheManager);
 
-        //SocketServer server = new SocketServer(6666, cacheManager);
-
-        //monitor.setPriority(10);
-        //server.setPriority(4);
-        //dispatcher.setPriority(4);
-
-        // Start server.
         monitor.start();
         dispatcher.start();
-        //server.start();
     }
 }
