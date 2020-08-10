@@ -74,7 +74,7 @@ public class CacheManager {
     public void dispatchList() {
 
         synchronized (listRecived) {
-            System.out.println("Dispatching...");
+            //System.out.println("Dispatching...");
             if (cacheSize() == 0)
                 return;
             listRecived.removeIf(l -> cache.remove(origem + ";" + destino + ";" + l));
