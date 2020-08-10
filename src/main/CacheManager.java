@@ -36,8 +36,8 @@ public class CacheManager {
         IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setClientMode(false);
         this.ignite = Ignition.start(cfg);
-        this.pm = this.ignite.dataStorageMetrics();
         this.cache = ignite.createCache("cache");
+        this.pm = this.ignite.dataStorageMetrics();
         this.destino = destino;
         this.origem = origem;
     }
