@@ -35,7 +35,7 @@ public class Resender extends Thread {
             }
 
             long stamp = System.currentTimeMillis();
-            showCacheInfo(stamp);
+            //showCacheInfo(stamp);
 
             if (finishProduce(stamp)) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
@@ -52,12 +52,11 @@ public class Resender extends Thread {
 
             if (convert >  6)
                 start = System.nanoTime();
-            try {
+            /*try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            
+            }*/
         }
     }
 
