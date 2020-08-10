@@ -134,9 +134,9 @@ public class CacheManager {
     }
 
     public void showMemoryUsage() {
-        System.out.println("TotalAllocatedSize: " + pm.getTotalAllocatedSize());
-        System.out.println("Off-Heap Size: " + pm.getOffHeapSize());
-        System.out.println("Off-Heap Used: " + pm.getOffheapUsedSize());
+        System.out.println("TotalAllocatedSize: " + this.pm.getTotalAllocatedSize());
+        System.out.println("Off-Heap Size: " + this.pm.getOffHeapSize());
+        System.out.println("Off-Heap Used: " + this.pm.getOffheapUsedSize());
     }
 }
 
