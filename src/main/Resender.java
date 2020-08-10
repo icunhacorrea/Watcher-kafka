@@ -101,8 +101,11 @@ public class Resender extends Thread {
      * Método que define se é possível realizar dispache
      * **/
     private boolean mayDispatch(long convert) {
-        return cacheManager.getTotal() != -1 &&
-                (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL);
+        //return cacheManager.getTotal() != -1 &&
+        //       (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL);
+        if (cacheManager.getRecievedSize() > 0)
+            return true;
+        return false;
     }
 
     private boolean finishProduce(long stamp) {
@@ -131,7 +134,7 @@ public class Resender extends Thread {
         System.out.println("Tamanho da recived: " + cacheManager.getRecievedSize());
         //System.out.println("To string: " + cacheManager.cacheToString());
         System.out.println("Stamp: " + (stamp - cacheManager.getTimeout()));
-        cacheManager.showMemoryUsage();
+        //cacheManager.showMemoryUsage();
         System.out.println("*******************************************");
     }
 }
