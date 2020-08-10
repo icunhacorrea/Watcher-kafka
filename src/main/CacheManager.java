@@ -1,5 +1,6 @@
 package main;
 
+import org.apache.ignite.DataStorageMetrics;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
@@ -17,6 +18,8 @@ public class CacheManager {
 
     private IgniteCache<String, String> cache;
 
+    private DataStorageMetrics pm;
+
     private List<Integer> listRecived = new ArrayList<>();
 
     private int idSeq = 0, total = -1;
@@ -33,6 +36,7 @@ public class CacheManager {
         IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setClientMode(false);
         this.ignite = Ignition.start(cfg);
+        this.pm = this.ignite.dataStorageMetrics();
         this.cache = ignite.createCache("cache");
         this.destino = destino;
         this.origem = origem;
@@ -127,6 +131,12 @@ public class CacheManager {
 
     public String cacheToString() {
         return this.cache.toString();
+    }
+
+    public void showMemoryUsage() {
+        System.out.println("TotalAllocatedSize: " + pm.getTotalAllocatedSize());
+        System.out.println("Off-Heap Size: " + pm.getOffHeapSize());
+        System.out.println("Off-Heap Used: " + pm.getOffheapUsedSize());
     }
 }
 
