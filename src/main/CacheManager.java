@@ -32,6 +32,8 @@ public class CacheManager {
 
     private long timeoutProduce = Long.MAX_VALUE;
 
+    private boolean IMADIATE_DISPATCH = true;
+
     public CacheManager(String destino, String origem) {
         IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setClientMode(false);
@@ -50,8 +52,8 @@ public class CacheManager {
         return this.cache.get(key);
     }
 
-    public void remove(String key) {
-        this.cache.remove(key);
+    public void remove(int idSeq) {
+        this.cache.remove(origem + ";" + destino + ";" + idSeq);
     }
 
     public void removeAll() {
@@ -65,8 +67,7 @@ public class CacheManager {
     public void addRecived(Integer recieved) {
 
         synchronized (listRecived){
-            //System.out.println("Message with Key " + recieved + " inserting in list...");
-            //System.out.println(origem + ";" + destino + ";" + recieved);
+            System.out.println("Message with Key " + recieved + " inserting in list...");
             listRecived.add(recieved);
         }
     }
@@ -74,7 +75,7 @@ public class CacheManager {
     public void dispatchList() {
 
         synchronized (listRecived) {
-            //System.out.println("Dispatching...");
+            System.out.println("Dispatching...");
             if (cacheSize() == 0)
                 return;
             listRecived.removeIf(l -> cache.remove(origem + ";" + destino + ";" + l));

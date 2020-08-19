@@ -12,8 +12,8 @@ public class Resender extends Thread {
 
     Producer<String, String> producer;
 
-    int SIZE_CACHE_MAX = 99;
-    int DISPATCH_INTERVAL = 3;
+    int SIZE_CACHE_MAX = 200;
+    int DISPATCH_INTERVAL = 90;
 
     int TIMEOUT = 60000;
 
@@ -35,7 +35,7 @@ public class Resender extends Thread {
             }
 
             long stamp = System.currentTimeMillis();
-            //showCacheInfo(stamp);
+                showCacheInfo(stamp);
 
             if (finishProduce(stamp)) {
                 /*  Entrar nesse laço significa que a produção de mensagens acabou.
@@ -52,11 +52,11 @@ public class Resender extends Thread {
 
             if (convert >  6)
                 start = System.nanoTime();
-            /*try {
+            try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
     }
 
@@ -89,8 +89,8 @@ public class Resender extends Thread {
 
     private static Properties newConfig() {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        props.put(ProducerConfig.ACKS_CONFIG, "0");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka1:9093,kafka2:9094,kafka3:9095");
+        props.put(ProducerConfig.ACKS_CONFIG, "1");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         return props;
@@ -100,11 +100,11 @@ public class Resender extends Thread {
      * Método que define se é possível realizar dispache
      * **/
     private boolean mayDispatch(long convert) {
-        //return cacheManager.getTotal() != -1 &&
-        //       (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL);
-        if (cacheManager.getRecievedSize() > 0)
-            return true;
-        return false;
+        return cacheManager.getTotal() != -1 &&
+               (cacheManager.cacheSize() > SIZE_CACHE_MAX || convert > DISPATCH_INTERVAL);
+        //if (cacheManager.getRecievedSize() > 0)
+        //    return true;
+        //return false;
     }
 
     private boolean finishProduce(long stamp) {

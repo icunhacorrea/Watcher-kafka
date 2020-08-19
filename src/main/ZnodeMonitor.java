@@ -38,7 +38,7 @@ public class ZnodeMonitor extends Thread {
 
                             //System.out.println("Count: " + count);
 
-                            if ((idSeq + 3 >= total) && cacheManager.getTimeout() == Long.MAX_VALUE) {
+                            /*if ((idSeq + 3 >= total) && cacheManager.getTimeout() == Long.MAX_VALUE) {
                                 System.out.println("Proximo de receber a ultima.");
                                 cacheManager.startTimeout();
                             }
@@ -47,7 +47,7 @@ public class ZnodeMonitor extends Thread {
                             if (cacheManager.getTotal() == -1) {
                                 cacheManager.setTotal(total);
                                 count = 0;
-                            }
+                            }*/
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

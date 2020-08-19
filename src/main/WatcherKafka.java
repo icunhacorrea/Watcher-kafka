@@ -9,7 +9,9 @@ public class WatcherKafka {
 
         String znode = "/brokers/topics";
 
-        CacheManager cacheManager = new CacheManager("test-topic", "producer-1");
+        final boolean IMEDIATE_DISPATCH = true;
+
+        CacheManager cacheManager = new CacheManager("test-topic", "producer-1", IMEDIATE_DISPATCH);
         ZnodeMonitor monitor = new ZnodeMonitor(cacheManager, zkHostPort, znode);
         Resender dispatcher = new Resender(cacheManager);
 
