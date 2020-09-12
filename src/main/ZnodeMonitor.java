@@ -5,18 +5,18 @@ import org.apache.zookeeper.*;
 
 public class ZnodeMonitor extends Thread {
 
-    CacheManager cacheManager;
-
     String zkUrl;
 
     String znode;
 
     int count = 0;
 
-    public ZnodeMonitor(CacheManager cacheManager, String zkUrl, String znode) {
-        this.cacheManager = cacheManager;
+    CircularList circularList;
+
+    public ZnodeMonitor(String zkUrl, String znode, CircularList circularList) {
         this.zkUrl = zkUrl;
         this.znode = znode;
+        this.circularList = circularList;
     }
 
     public void run() {
@@ -32,22 +32,12 @@ public class ZnodeMonitor extends Thread {
                         try {
                             bytes = zk.getData(event.getPath(), false, null);
                             String data = new String(bytes);
-                            int idSeq = Integer.parseInt(data.split(";")[0]);
-                            int total = Integer.parseInt(data.split(";")[1]);
-                            cacheManager.addRecived(idSeq);
+                            System.out.println("Notificação: " + data);
 
-                            //System.out.println("Count: " + count);
-
-                            /*if ((idSeq + 3 >= total) && cacheManager.getTimeout() == Long.MAX_VALUE) {
-                                System.out.println("Proximo de receber a ultima.");
-                                cacheManager.startTimeout();
+                            synchronized (circularList) {
+                                circularList.addReceived(data);
                             }
-                            if (idSeq == cacheManager.getTotal())
-                                cacheManager.setMonitorFinish(true);
-                            if (cacheManager.getTotal() == -1) {
-                                cacheManager.setTotal(total);
-                                count = 0;
-                            }*/
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
