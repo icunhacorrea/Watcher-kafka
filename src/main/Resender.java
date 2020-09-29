@@ -11,6 +11,8 @@ public class Resender extends Thread {
 
     CircularList circularList ;
 
+    int CHECK_SIZE_INTERVAL = 3;
+
     public Resender(CircularList circularList) {
         Properties props = newConfig();
         this.producer = new KafkaProducer<>(props);
@@ -25,13 +27,20 @@ public class Resender extends Thread {
 
         while(true) {
 
-            System.out.println("Qnt: " + circularList.getCounter() + " " + circularList.toString());
-            //System.out.println("Qnt received: " + circularList.getSizeReceived());
-
-            synchronized (circularList) {
-                if (circularList.getSizeReceived() > 0)
-                    circularList.markRead();
+            if (circularList.getSizeReceived() > 0) {
+                circularList.markReadRecived();
             }
+
+            if (mayChangeSize(convert)) {
+                circularList.changeSize();
+                start = System.nanoTime();
+            }
+
+
+            stop = System.nanoTime();
+            convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
+
+            //printInfo();
 
             /*try {
                 Thread.sleep(5000);
@@ -48,18 +57,26 @@ public class Resender extends Thread {
 
     private static Properties newConfig() {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka1:9093,kafka2:9094,kafka3:9095");
         props.put(ProducerConfig.ACKS_CONFIG, "1");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         return props;
     }
 
-    /**
-     * Método que define se é possível realizar dispache
-     * **/
-    private boolean mayDispatch(long convert) {
-        return true;
+    private boolean mayChangeSize(long convert) {
+        if (convert > CHECK_SIZE_INTERVAL)
+            return true;
+        return false;
+    }
+
+    public void printInfo() {
+        System.out.println("Qnt: " + circularList.getCounter() + " " + circularList.toString());
+        System.out.println("Qnt received: " + circularList.getSizeReceived());
+        System.out.println("Insertions: " + circularList.getCountInsertions());
+        System.out.println("Qnt Read: " + circularList.getQntRead());
+        System.out.println("Total esperado: " + circularList.getTotalMesages());
+        //circularList.changeSize();
     }
 
 }

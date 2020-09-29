@@ -5,10 +5,15 @@ import java.util.ArrayList;
 public class CircularList {
 
     private Node head;
-    private Node lastConfirmed;
-    private Node lastInserted;
+    private Node tail;
+    private Node lastUnconfirmed;
+    private Node startPointer;
+
     private int sizeMax;
     private int counter;
+    private int countInsertions;
+    private int qntRead;
+    private int totalMesages;
     ArrayList<String> received = new ArrayList<>();
 
     static class Node{
@@ -17,12 +22,14 @@ public class CircularList {
         private Node next;
         private boolean read;
         private String key;
+        private int age;
 
         Node(Object data, String key) {
             this.data = data;
             this.next = null;
             this.read = false;
             this.key = key;
+            this.age = 0;
         }
 
         public Object getData(){
@@ -56,23 +63,38 @@ public class CircularList {
         public void setKey(String key) {
             this.key = key;
         }
+
+        public void incrementAge() {
+            this.age++;
+        }
+
+        public int getAge() {
+            return this.age;
+        }
+
+        public void resetAge() {
+            this.age = 0;
+        }
     }
 
     public CircularList(int size) {
         this.head = null;
-        this.lastConfirmed = null;
-        this.lastInserted = null;
+        this.lastUnconfirmed = null;
+        this.startPointer = null;
         this.sizeMax = size;
         this.counter = 0;
+        this.countInsertions = 0;
+        this.totalMesages = 0;
     }
 
     public void insert(Object data, String key) {
-        System.out.println("Entrou aqui pai. adicionando key: " + key);
+        //System.out.println("Entrou aqui pai. adicionando key: " + key);
         if (head == null) {
             head = new Node(data, key);
             head.setNext(head);
+            tail = head;
             incrementCounter();
-            lastInserted = head;
+            incrementInsertions();
             return;
         }
 
@@ -82,36 +104,60 @@ public class CircularList {
         }
 
         Node tmp = new Node(data, key);
-        Node current = head;
-        Node prev = null;
 
-        if (current != null) {
-            while (current.getNext() != head) {
-                prev = current;
-                current = current.getNext();
-            }
+        tail.setNext(tmp);
+        tmp.setNext(head);
+        tail = tmp;
 
-            current.setNext(tmp);
-            tmp.setNext(head);
-        }
         incrementCounter();
-
+        incrementInsertions();
     }
 
-    public boolean insertBeforeRead(Object data, String key) {
+    public void insertBeforeRead(Object data, String key) {
 
-        if (lastInserted != null) {
-            if (lastInserted.getRead()) {
-                // Se item já tiver sido lido.
-                lastInserted.setData(data);
-                lastInserted.setKey(key);
-                lastInserted.setRead(false);
-            }
+        //System.out.println("Vamos procurar um lugar para + " + key);
+
+        if (startPointer == null) {
+            startPointer = head;
         }
 
-        lastInserted = lastInserted.getNext();
+        boolean replace = false;
 
-        return true;
+        Node current = startPointer;
+
+        while(true) {
+
+            if (current.getRead()) {
+                // Se current já foi lido.
+                //System.out.println("Current já foi lido: " + current.getKey());
+                replace = true;
+                break;
+            } else {
+                // Avaliar a idade do nodo
+                // Se for velho demais, reenviar e alterar.
+                // resend current here.
+
+                if (current.getAge() >= 1000000){
+                    replace = true;
+                    break;
+                }
+
+                current.incrementAge();
+
+            }
+
+            current = current.getNext();
+
+        }
+
+        if (replace) {
+            current.setRead(false);
+            current.setData(data);
+            current.setKey(key);
+            current.resetAge();
+            incrementInsertions();
+        }
+        startPointer = current.getNext();
     }
 
     public String toString(){
@@ -132,36 +178,43 @@ public class CircularList {
         return output;
     }
 
-    public void markRead() {
-        if(lastConfirmed == null)
-            lastConfirmed = head;
+    public void markReadRecived() {
+        if(lastUnconfirmed == null)
+            lastUnconfirmed = head;
         if(head == null)
             return;
 
         synchronized (received) {
+
+            ArrayList<String> checked = new ArrayList<>();
+
             for (String r : received) {
 
-                // Implementar um laço que percorra de LastInserted até last
-                System.out.println("Procurando por: " + r);
-                System.out.println("LastInserted: " + lastInserted.getKey());
+                Node current = lastUnconfirmed;
+                //System.out.println("String procurada: " + r);
+                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
 
-                while ()
+                while (true) {
 
-                if (lastConfirmed.getKey().equals(r)) {
-                    System.out.println("Marcando a key [" + r + "]" + " como recebida.");
-                    lastConfirmed.setRead(true);
-                    lastConfirmed = lastConfirmed.getNext();
+                    if(current.getKey().equals(r)) {
+                        current.setRead(true);
+                        checked.add(r);
+                        incrementQntRead();
+                        lastUnconfirmed = current.getNext();
+                        break;
+                    }
+
+                    current = current.getNext();
                 }
-
-
             }
-            clearReceived();
+            received.removeAll(checked);
         }
     }
 
     public String concatString(Node current) {
-        return " -> [" + current.getKey() + " / " + current.getRead() + "]";
+        return " -> [" + current.getKey() + " / " + current.getRead() + " " +
+                current.getAge() + "]";
     }
 
     public void incrementCounter() {
@@ -172,8 +225,28 @@ public class CircularList {
         return counter;
     }
 
-    public boolean listIsFull() {
-        return counter < sizeMax;
+    public int getQntRead() {
+        return qntRead;
+    }
+
+    public void incrementQntRead() {
+        qntRead++;
+    }
+
+    public void incrementInsertions() {
+        countInsertions++;
+    }
+
+    public int getCountInsertions() {
+        return countInsertions;
+    }
+
+    public void setTotalMesages(int totalMesages) {
+        this.totalMesages = totalMesages;
+    }
+
+    public int getTotalMesages() {
+        return totalMesages;
     }
 
     public void addReceived(String r) {
@@ -188,17 +261,22 @@ public class CircularList {
         }
     }
 
-    public void clearReceived() {
-        synchronized (received) {
-            received.clear();
+    public void changeSize() {
+
+        if (getTotalMesages() == 0)
+            return;
+
+        float percentRead = (float) getQntRead() / getTotalMesages();
+
+        System.out.println("*** % De mensagens confirmadas: " + percentRead + "***");
+
+        if (percentRead < 0.3) {
+            sizeMax += sizeMax + (0.2 * sizeMax);
         }
-    }
 
-    public Node getLastInserted() {
-        return lastConfirmed;
-    }
-
-    public Node getLastUnread() {
-        return lastConfirmed;
+        if (percentRead == 1) {
+            System.out.println("Produção de mensagens encerrada.");
+            setTotalMesages(0);
+        }
     }
 }
