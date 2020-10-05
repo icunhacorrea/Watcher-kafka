@@ -9,7 +9,7 @@ public class WatcherKafka {
 
         String znode = "/brokers/topics";
 
-        CircularList circularList = new CircularList(100);
+        CircularList circularList = new CircularList(5000);
 
         ZnodeMonitor monitor = new ZnodeMonitor(zkHostPort, znode, circularList);
         SocketServer server = new SocketServer(6666, circularList);
