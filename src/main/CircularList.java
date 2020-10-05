@@ -229,6 +229,10 @@ public class CircularList {
         return qntRead;
     }
 
+    public void setQntRead(int qntRead) {
+        this.qntRead = qntRead;
+    }
+
     public void incrementQntRead() {
         qntRead++;
     }
@@ -276,6 +280,8 @@ public class CircularList {
 
         if (percentRead == 1) {
             System.out.println("Produção de mensagens encerrada.");
+            setTotalMesages(0);
+            setQntRead(0);
             setTotalMesages(0);
         }
     }
