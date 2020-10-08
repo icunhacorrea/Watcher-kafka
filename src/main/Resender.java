@@ -40,7 +40,7 @@ public class Resender extends Thread {
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
 
-            printInfo();
+            //printInfo();
 
             /*try {
                 Thread.sleep(5000);
