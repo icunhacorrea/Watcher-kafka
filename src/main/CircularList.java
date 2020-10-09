@@ -137,7 +137,7 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() >= 1000000){
+                if (current.getAge() >= 5){
                     replace = true;
                     break;
                 }
@@ -201,16 +201,14 @@ public class CircularList {
                         current.setRead(true);
                         checked.add(r);
                         incrementQntRead();
-                        lastUnconfirmed = current;
+                        lastUnconfirmed = current.getNext();
                         break;
                     }
 
                     current = current.getNext();
                 }
             }
-
             received.removeAll(checked);
-
         }
     }
 
