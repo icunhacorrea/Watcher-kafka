@@ -32,8 +32,8 @@ public class Resender extends Thread {
             }
 
             if (mayChangeSize(convert)) {
-                circularList.changeSize();
                 printInfo();
+                circularList.changeSize();
                 start = System.nanoTime();
             }
 
