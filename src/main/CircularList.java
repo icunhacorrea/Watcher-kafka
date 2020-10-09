@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class CircularList {
 
@@ -14,7 +15,7 @@ public class CircularList {
     private int countInsertions;
     private int qntRead;
     private int totalMesages;
-    ArrayList<String> received = new ArrayList<>();
+    Vector<String> received = new Vector<>();
 
     static class Node{
 
