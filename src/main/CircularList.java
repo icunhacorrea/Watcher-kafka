@@ -179,9 +179,9 @@ public class CircularList {
     }
 
     public void markReadRecived() {
-        if(head == null)
+        if (head == null)
             return;
-        if(lastUnconfirmed == null)
+        if (lastUnconfirmed == null)
             lastUnconfirmed = head;
 
         synchronized (received) {
@@ -196,7 +196,8 @@ public class CircularList {
                 Node current = lastUnconfirmed;
 
                 while (true) {
-
+                    System.out.println("Current: " + current.getKey());
+                    System.out.println("R: " + r);
                     if(current.getKey().equals(r)) {
                         current.setRead(true);
                         checked.add(r);
