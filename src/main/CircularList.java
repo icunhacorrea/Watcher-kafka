@@ -208,7 +208,9 @@ public class CircularList {
                     current = current.getNext();
                 }
             }
+
             received.removeAll(checked);
+
         }
     }
 
@@ -295,7 +297,6 @@ public class CircularList {
         Node current = head;
 
         while (current.getNext() != head) {
-            System.out.println("oi");
             sum += current.getAge();
             current = current.getNext();
         }
