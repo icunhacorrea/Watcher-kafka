@@ -211,7 +211,7 @@ public class CircularList {
                 }
             }
 
-            //received.removeAll(checked);
+            received.removeAll(checked);
 
         }
     }
