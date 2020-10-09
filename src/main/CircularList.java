@@ -276,15 +276,30 @@ public class CircularList {
         System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
         System.out.println("*** Tamanho da lista: " + sizeMax + " ***");
 
-        if (percentRead < 0.3) {
-            sizeMax += sizeMax + (0.2 * sizeMax);
+        if (percentRead < 0.1) {
+            sizeMax += (0.1 * sizeMax);
         }
 
         if (percentRead == 1) {
             System.out.println("Produção de mensagens encerrada.");
+            getMedianAge();
             setTotalMesages(0);
             setQntRead(0);
             setTotalMesages(0);
         }
+    }
+
+    public void getMedianAge() {
+        int sum = 0;
+
+        Node current = head;
+
+        while (current.getNext() != head) {
+            sum += current.getAge();
+        }
+
+        sum += tail.getAge();
+
+        System.out.println("Idade média: " + sum / sizeMax);
     }
 }
