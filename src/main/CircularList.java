@@ -277,7 +277,7 @@ public class CircularList {
         System.out.println("*** Tamanho da lista: " + sizeMax + " ***");
 
         if (percentRead < 0.1) {
-            sizeMax += (0.1 * sizeMax);
+            sizeMax += (0.2 * sizeMax);
         }
 
         if (percentRead == 1) {
