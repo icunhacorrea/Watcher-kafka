@@ -196,8 +196,7 @@ public class CircularList {
                 Node current = lastUnconfirmed;
 
                 while (true) {
-                    System.out.println("Current: " + current.getKey());
-                    System.out.println("R: " + r);
+                    
                     if(current.getKey().equals(r)) {
                         current.setRead(true);
                         checked.add(r);
