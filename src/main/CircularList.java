@@ -297,6 +297,7 @@ public class CircularList {
         while (current.getNext() != head) {
             System.out.println("oi");
             sum += current.getAge();
+            current = current.getNext();
         }
 
         sum += tail.getAge();
