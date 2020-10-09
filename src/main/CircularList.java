@@ -190,10 +190,10 @@ public class CircularList {
 
             for (String r : received) {
 
-                Node current = lastUnconfirmed;
                 //System.out.println("String procurada: " + r);
                 //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
+                Node current = lastUnconfirmed;
 
                 while (true) {
 
@@ -206,10 +206,11 @@ public class CircularList {
                     }
 
                     current = current.getNext();
+
                 }
             }
 
-            received.removeAll(checked);
+            //received.removeAll(checked);
 
         }
     }
