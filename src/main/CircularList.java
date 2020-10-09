@@ -201,7 +201,7 @@ public class CircularList {
                         current.setRead(true);
                         checked.add(r);
                         incrementQntRead();
-                        lastUnconfirmed = current.getNext();
+                        lastUnconfirmed = current;
                         break;
                     }
 

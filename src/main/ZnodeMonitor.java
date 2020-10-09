@@ -33,7 +33,7 @@ public class ZnodeMonitor extends Thread {
                             bytes = zk.getData(event.getPath(), false, null);
                             String data = new String(bytes);
                             //System.out.println("Notificação: " + data);
-                            
+
                             circularList.addReceived(data);
 
                         } catch (Exception e) {
