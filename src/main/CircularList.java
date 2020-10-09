@@ -179,10 +179,10 @@ public class CircularList {
     }
 
     public void markReadRecived() {
-        if(lastUnconfirmed == null)
-            lastUnconfirmed = head;
         if(head == null)
             return;
+        if(lastUnconfirmed == null)
+            lastUnconfirmed = head;
 
         synchronized (received) {
 
