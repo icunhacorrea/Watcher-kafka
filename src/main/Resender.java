@@ -27,19 +27,21 @@ public class Resender extends Thread {
 
         while(true) {
 
-            //synchronized (circularList) {
+            synchronized (circularList) {
 
                 if (circularList.getSizeReceived() > 0) {
+                    System.out.println("treta 1");
                     circularList.markReadRecived();
                 }
 
                 if (mayChangeSize(convert)) {
+                    System.out.println("treta 2");
                     printInfo();
                     circularList.changeSize();
                     start = System.nanoTime();
                 }
 
-            //}
+            }
 
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
