@@ -7,7 +7,7 @@ public class WatcherKafka {
         //String zkHostPort = "localhost:2181";
         String zkHostPort = "zoo1:2181,zoo2:2181,zoo3:2181";
 
-        String znode = "/brokers";
+        String znode = "/brokers/topics";
 
         CircularList circularList = new CircularList(5000);
 
