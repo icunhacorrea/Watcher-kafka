@@ -250,6 +250,11 @@ public class CircularList {
         return countInsertions;
     }
 
+    public void setInsertions(int insertions) {
+        this.countInsertions = insertions;
+    }
+
+
     public void setTotalMesages(int totalMesages) {
         this.totalMesages = totalMesages;
     }
@@ -289,6 +294,7 @@ public class CircularList {
             System.out.println("Produção de mensagens encerrada.");
             getMedianAge();
             setTotalMesages(0);
+            setInsertions(0);
             setQntRead(0);
             setTotalMesages(0);
         }
