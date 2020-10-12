@@ -29,7 +29,7 @@ public class Resender extends Thread {
 
             //synchronized (circularList) {
 
-                if (circularList.getSizeReceived() >= 10) {
+                if (circularList.getSizeReceived() != 0) {
                     //System.out.println("treta 1");
                     circularList.markReadRecived();
                 }
