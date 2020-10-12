@@ -35,7 +35,9 @@ public class ZnodeMonitor extends Thread {
                             System.out.println("Notificação: " + data);
                             System.out.println("count: " + count);
 
-                            circularList.addReceived(data);
+                            synchronized (circularList) {
+                                circularList.addReceived(data);
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
