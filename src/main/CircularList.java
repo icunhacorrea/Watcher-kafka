@@ -264,15 +264,15 @@ public class CircularList {
     }
 
     public void addReceived(String r) {
-        synchronized (received) {
+        //synchronized (received) {
             received.add(r);
-        }
+        //}
     }
 
     public int getSizeReceived() {
-        synchronized (received) {
+        //synchronized (received) {
             return received.size();
-        }
+        //}
     }
 
     public void changeSize() {
