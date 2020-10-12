@@ -33,14 +33,14 @@ public class Resender extends Thread {
                     circularList.markReadRecived();
                 }
 
-                if (mayChangeSize(convert)) {
-                    printInfo();
-                    circularList.changeSize();
-                    start = System.nanoTime();
-                }
-
             }
-            
+
+            if (mayChangeSize(convert)) {
+                printInfo();
+                circularList.changeSize();
+                start = System.nanoTime();
+            }
+
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
 
