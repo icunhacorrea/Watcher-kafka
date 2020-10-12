@@ -27,7 +27,7 @@ public class Resender extends Thread {
 
         while(true) {
 
-            synchronized (circularList) {
+            //synchronized (circularList) {
 
                 if (circularList.getSizeReceived() > 0) {
                     circularList.markReadRecived();
@@ -39,7 +39,7 @@ public class Resender extends Thread {
                     start = System.nanoTime();
                 }
 
-            }
+            //}
 
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
