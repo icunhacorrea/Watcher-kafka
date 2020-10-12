@@ -15,7 +15,7 @@ public class CircularList {
     private int countInsertions;
     private int qntRead;
     private int totalMesages;
-    Vector<String> received = new Vector<>();
+    ArrayList<String> received = new ArrayList<>();
 
     static class Node{
 
@@ -264,15 +264,15 @@ public class CircularList {
     }
 
     public void addReceived(String r) {
-        //synchronized (received) {
+        synchronized (received) {
             received.add(r);
-        //}
+        }
     }
 
     public int getSizeReceived() {
-        //synchronized (received) {
+        synchronized (received) {
             return received.size();
-        //}
+        }
     }
 
     public void changeSize() {
