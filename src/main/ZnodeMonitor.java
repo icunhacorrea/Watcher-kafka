@@ -21,7 +21,7 @@ public class ZnodeMonitor extends Thread {
 
     public void run() {
         try {
-            ZooKeeper zk = new ZooKeeper(zkUrl, 180000, null);
+            ZooKeeper zk = new ZooKeeper(zkUrl, 60000, null);
             zk.addWatch(znode, new Watcher() {
                 @Override
                 public void process(WatchedEvent event) {

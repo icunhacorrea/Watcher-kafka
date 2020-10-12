@@ -5,9 +5,9 @@ public class WatcherKafka {
     public static void main(String args[]) throws Exception {
 
         //String zkHostPort = "localhost:2181";
-        String zkHostPort = "zoo1:2181,zoo2:2182,zoo3:2183";
+        String zkHostPort = "zoo1:2181,zoo2:2181,zoo3:2181";
 
-        String znode = "/brokers/topics";
+        String znode = "/brokers";
 
         CircularList circularList = new CircularList(5000);
 
