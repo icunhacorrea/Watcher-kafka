@@ -21,23 +21,21 @@ public class ZnodeMonitor extends Thread {
 
     public void run() {
         try {
-            ZooKeeper zk = new ZooKeeper(zkUrl, 60000, null);
+            ZooKeeper zk = new ZooKeeper(zkUrl, 120000, null);
             zk.addWatch(znode, new Watcher() {
                 @Override
                 public void process(WatchedEvent event) {
                     if (event.getType() == Event.EventType.NodeCreated &&
                             event.getPath().contains("produce")) {
-                        count += 1;
                         byte[] bytes;
                         try {
                             bytes = zk.getData(event.getPath(), false, null);
                             String data = new String(bytes);
+                            count += 1;
                             System.out.println("Notificação: " + data);
                             System.out.println("count: " + count);
 
-                            synchronized (circularList) {
-                                circularList.addReceived(data);
-                            }
+                            circularList.addReceived(data);
 
                         } catch (Exception e) {
                             e.printStackTrace();
