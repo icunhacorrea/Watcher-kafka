@@ -282,12 +282,14 @@ public class CircularList {
 
         float percentRead = (float) getQntRead() / getTotalMesages();
 
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++'x");
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
         System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
         System.out.println("*** Tamanho da lista: " + sizeMax + " ***");
 
         if (percentRead < 0.1) {
-            sizeMax += (0.2 * sizeMax);
+
+            sizeMax += (0.05 * sizeMax);
         }
 
         if (percentRead == 1) {

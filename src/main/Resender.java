@@ -11,7 +11,7 @@ public class Resender extends Thread {
 
     CircularList circularList ;
 
-    int CHECK_SIZE_INTERVAL = 3;
+    int CHECK_SIZE_INTERVAL = 5;
 
     public Resender(CircularList circularList) {
         Properties props = newConfig();
