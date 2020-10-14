@@ -11,8 +11,10 @@ public class CircularList {
     private Node startPointer;
 
     private int sizeMax;
+    private final int sizeLimit = 50000;
     private int counter;
     private int countInsertions;
+    private int countResends;
     private int qntRead;
     private int totalMesages;
     Vector<String> received = new Vector<>();
@@ -85,6 +87,7 @@ public class CircularList {
         this.sizeMax = size;
         this.counter = 0;
         this.countInsertions = 0;
+        this.countResends = 0;
         this.totalMesages = 0;
     }
 
@@ -138,7 +141,7 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() >= 3){
+                if (current.getAge() > 0){
                     replace = true;
                     break;
                 }
@@ -254,6 +257,17 @@ public class CircularList {
         this.countInsertions = insertions;
     }
 
+    public void setResends(int resends) {
+        this.countResends = resends;
+    }
+
+    public void incrementResends() {
+        countResends++;
+    }
+
+    public int getResends() {
+        return this.countResends;
+    }
 
     public void setTotalMesages(int totalMesages) {
         this.totalMesages = totalMesages;
@@ -282,15 +296,15 @@ public class CircularList {
 
         float percentRead = (float) getQntRead() / getTotalMesages();
 
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++'x");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
         System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
         System.out.println("*** Tamanho da lista: " + sizeMax + " ***");
+        System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
 
-        if (percentRead < 0.1) {
-
-            sizeMax += (0.05 * sizeMax);
-        }
+        if (percentRead < 0.1)
+            if (sizeMax < sizeLimit)
+                sizeMax += (0.05 * sizeMax);
 
         if (percentRead == 1) {
             System.out.println("Produção de mensagens encerrada.");
