@@ -11,7 +11,7 @@ public class Resender extends Thread {
 
     CircularList circularList ;
 
-    int CHECK_SIZE_INTERVAL = 5;
+    int CHECK_SIZE_INTERVAL = 3;
 
     public Resender(CircularList circularList) {
         Properties props = newConfig();
@@ -28,6 +28,7 @@ public class Resender extends Thread {
         while(true) {
 
             if (circularList.getSizeReceived() > 100) {
+                System.out.println("Marcando read");
                 circularList.markReadRecived();
             }
 

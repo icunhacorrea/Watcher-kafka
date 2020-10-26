@@ -195,8 +195,8 @@ public class CircularList {
 
             for (String r : received) {
 
-                //System.out.println("String procurada: " + r);
-                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
+                System.out.println("String procurada: " + r);
+                System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
                 current = lastUnconfirmed;
 
