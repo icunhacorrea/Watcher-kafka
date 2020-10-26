@@ -141,7 +141,7 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() > 0){
+                if (current.getAge() > 20){
                     replace = true;
                     break;
                 }
