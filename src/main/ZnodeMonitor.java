@@ -21,7 +21,7 @@ public class ZnodeMonitor extends Thread {
 
     public void run() {
         try {
-            Thread.sleep(10000);
+            //Thread.sleep(10000);
             ZooKeeper zk = new ZooKeeper(zkUrl, 60000, null);
             zk.addWatch(znode, new Watcher() {
                 @Override
