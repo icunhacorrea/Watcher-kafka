@@ -27,7 +27,7 @@ public class Resender extends Thread {
 
         while(true) {
 
-            if (circularList.getSizeReceived() != 0) {
+            if (circularList.getSizeReceived() > 0) {
                 circularList.markReadRecived();
             }
 
