@@ -302,9 +302,15 @@ public class CircularList {
         System.out.println("*** Tamanho da lista: " + sizeMax + " ***");
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
 
-        if (percentRead < 0.1)
-            if (sizeMax < sizeLimit)
+        if (percentRead < 0.1) {
+            System.out.println("Print 1");
+            if (sizeMax < sizeLimit) {
+                System.out.println("Print 2");
                 sizeMax += (0.05 * sizeMax);
+                System.out.println("Print 3");
+            }
+            System.out.println("Print 4");
+        }
 
         if (percentRead == 1) {
             System.out.println("Produção de mensagens encerrada.");
