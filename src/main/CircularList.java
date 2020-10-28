@@ -10,8 +10,7 @@ public class CircularList {
     private Node lastUnconfirmed;
     private Node startPointer;
 
-    private int sizeMax;
-    private final int sizeLimit = 50000;
+    private int size;
     private int counter;
     private int countInsertions;
     private int countResends;
@@ -84,7 +83,7 @@ public class CircularList {
         this.head = null;
         this.lastUnconfirmed = null;
         this.startPointer = null;
-        this.sizeMax = size;
+        this.size = size;
         this.counter = 0;
         this.countInsertions = 0;
         this.countResends = 0;
@@ -102,7 +101,7 @@ public class CircularList {
             return;
         }
 
-        if (getCounter() == sizeMax) {
+        if (getCounter() == size) {
             insertBeforeRead(data, key);
             return;
         }
@@ -299,14 +298,14 @@ public class CircularList {
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
         System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
-        System.out.println("*** Tamanho da lista: " + sizeMax + " ***");
+        System.out.println("*** Tamanho da lista: " + size + " ***");
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
 
         if (percentRead < 0.1) {
             System.out.println("Print 1");
-            if (sizeMax < sizeLimit) {
+            if (size < (getTotalMesages() * 2)) {
                 System.out.println("Print 2");
-                sizeMax += (0.05 * sizeMax);
+                size += (0.05 * size);
                 System.out.println("Print 3");
             }
             System.out.println("Print 4");
@@ -334,6 +333,6 @@ public class CircularList {
 
         sum += tail.getAge();
 
-        System.out.println("Idade média: " + sum / sizeMax);
+        System.out.println("Idade média: " + sum / size);
     }
 }
