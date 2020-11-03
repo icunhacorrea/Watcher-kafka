@@ -182,22 +182,24 @@ public class CircularList {
     }
 
     public void markReadRecived() {
-        if (head == null)
-            return;
+        if (lastUnconfirmed == null)
+            if (head == null)
+                return;
+            else
+                lastUnconfirmed = head;
 
         synchronized (received) {
 
             ArrayList<String> checked = new ArrayList<>();
 
-            Node current = head;
-            lastUnconfirmed = head;
+            Node current = lastUnconfirmed;
 
             for (String r : received) {
 
-                //System.out.println("String procurada: " + r);
-                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
+                System.out.println("String procurada: " + r);
+                System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
-                current = lastUnconfirmed;
+                Node bkp = lastUnconfirmed;
 
                 while (true) {
 
@@ -211,6 +213,8 @@ public class CircularList {
 
                     current = current.getNext();
 
+                    if (current == bkp)
+                        break;
                 }
             }
 
