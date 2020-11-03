@@ -40,11 +40,6 @@ public class Resender extends Thread {
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
 
-            /*try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
         }
     }
 
@@ -70,7 +65,7 @@ public class Resender extends Thread {
     }
 
     public void printInfo() {
-        //System.out.println("Qnt: " + circularList.getCounter() + " " + circularList.toString());
+        System.out.println("Qnt: " + circularList.getCounter() + " " + circularList.toString());
         System.out.println("Qnt received: " + circularList.getSizeReceived());
         System.out.println("Insertions: " + circularList.getCountInsertions());
         System.out.println("Qnt Read: " + circularList.getQntRead());
