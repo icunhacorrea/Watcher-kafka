@@ -301,13 +301,9 @@ public class CircularList {
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
 
         if (percentRead < 0.1) {
-            System.out.println("Print 1");
             if (size < (getTotalMesages() * 2)) {
-                System.out.println("Print 2");
                 size += (0.05 * size);
-                System.out.println("Print 3");
             }
-            System.out.println("Print 4");
         }
 
         if (percentRead == 1) {
