@@ -203,6 +203,9 @@ public class CircularList {
 
                 current = lastUnconfirmed;
 
+                if (current == null)
+                    return;
+
                 while (true) {
 
                     if(current.getKey().equals(r)) {
