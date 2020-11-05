@@ -34,7 +34,7 @@ public class ZnodeMonitor extends Thread {
                             count += 1;
                             //System.out.println("Notificação: " + data);
                             //System.out.println("count: " + count);
-                            System.out.println(event.getPath());
+                            //System.out.println(event.getPath());
 
                             circularList.addReceived(data);
 

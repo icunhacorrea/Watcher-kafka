@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class CircularList {
@@ -199,8 +198,8 @@ public class CircularList {
 
             for (String r : received) {
 
-                System.out.println("String procurada: " + r);
-                System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
+                //System.out.println("String procurada: " + r);
+                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
                 current = lastUnconfirmed;
 
@@ -210,7 +209,7 @@ public class CircularList {
                 while (true) {
 
                     if(current.getKey().equals(r)) {
-                        System.out.println("[ OK ]");
+                        //System.out.println("[ OK ]");
                         current.setRead(true);
                         checked.add(r);
                         incrementQntRead();
