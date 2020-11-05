@@ -184,15 +184,16 @@ public class CircularList {
 
     public void markReadRecived() {
         if (lastUnconfirmed == null) {
-            if (head == null)
+            if (head == null) {
                 return;
-            else
+            } else {
                 lastUnconfirmed = head;
+            }
         }
 
         synchronized (received) {
 
-            ArrayList<String> checked = new ArrayList<>();
+            Vector<String> checked = new Vector<>();
 
             Node current;
 
@@ -203,8 +204,8 @@ public class CircularList {
 
                 current = lastUnconfirmed;
 
-                //if (current == null)
-                //    return;
+                if (current == null)
+                    return;
 
                 while (true) {
 
