@@ -1,5 +1,12 @@
 package main;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import recordutil.src.main.Record;
+
+import java.util.Properties;
 import java.util.Vector;
 
 public class CircularList {
@@ -16,6 +23,8 @@ public class CircularList {
     private int qntRead;
     private int totalMesages;
     Vector<String> received = new Vector<>();
+
+    Producer<String, String> producer;
 
     static class Node{
 
@@ -87,6 +96,8 @@ public class CircularList {
         this.countInsertions = 0;
         this.countResends = 0;
         this.totalMesages = 0;
+        Properties props = newConfig();
+        this.producer = new KafkaProducer<>(props);
     }
 
     public void insert(Object data, String key) {
@@ -143,6 +154,9 @@ public class CircularList {
 
                 if (current.getAge() > 0){
                     incrementResends();
+
+                    resend(current.getData());
+
                     replace = true;
                     break;
                 }
@@ -230,6 +244,14 @@ public class CircularList {
     public String concatString(Node current) {
         return " -> [" + current.getKey() + " / " + current.getRead() + " " +
                 current.getAge() + "]";
+    }
+
+    public void resend(Object o) {
+        Record _record = (Record) o;
+        ProducerRecord<String, String> record = new ProducerRecord<>(_record.getDestino(),
+                Integer.toString(_record.getIdSeq()), _record.getValue());
+        producer.send(record);
+        producer.flush();
     }
 
     public void incrementCounter() {
@@ -338,5 +360,15 @@ public class CircularList {
         sum += tail.getAge();
 
         System.out.println("Idade média: " + sum / size);
+    }
+
+    private static Properties newConfig() {
+        Properties props = new Properties();
+        //props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka1:9092,kafka2:9092,kafka3:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.21.0.5:9092,172.21.0.6:9092,172.21.0.7:9092");
+        props.put(ProducerConfig.ACKS_CONFIG, "-1");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        return props;
     }
 }

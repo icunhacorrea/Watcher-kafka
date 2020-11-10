@@ -14,7 +14,7 @@ public class WatcherKafka {
 
         ZnodeMonitor monitor = new ZnodeMonitor(zkHostPort, znode, circularList);
         SocketServer server = new SocketServer(6666, circularList);
-        Resender dispatcher = new Resender(circularList);
+        Controller dispatcher = new Controller(circularList);
 
         monitor.start();
         server.start();
