@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class CircularList {
@@ -142,7 +141,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() > 0){
+                if (current.getAge() > 1){
                     incrementResends();
                     replace = true;
                     break;
@@ -184,15 +183,16 @@ public class CircularList {
 
     public void markReadRecived() {
         if (lastUnconfirmed == null) {
-            if (head == null)
+            if (head == null) {
                 return;
-            else
+            } else {
                 lastUnconfirmed = head;
+            }
         }
 
         synchronized (received) {
 
-            ArrayList<String> checked = new ArrayList<>();
+            Vector<String> checked = new Vector<>();
 
             Node current;
 
@@ -209,6 +209,7 @@ public class CircularList {
                 while (true) {
 
                     if(current.getKey().equals(r)) {
+                        //System.out.println("[ OK ]");
                         current.setRead(true);
                         checked.add(r);
                         incrementQntRead();
@@ -309,7 +310,7 @@ public class CircularList {
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() * 2)) {
+            if (size < (getTotalMesages() / 5)) {
                 size += (0.05 * size);
             }
         }
