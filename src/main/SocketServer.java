@@ -41,7 +41,7 @@ public class SocketServer extends Thread {
 
                 for (Record record : records) {
                     count++;
-                    System.out.println("Record Recebido: " + record.toString());
+                    //System.out.println("Record Recebido: " + record.toString());
                     synchronized (circularList) {
 
                         circularList.insert(record, record.getOrigem() + ";" +
