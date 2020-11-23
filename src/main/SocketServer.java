@@ -36,7 +36,6 @@ public class SocketServer extends Thread {
 
             while(true) {
                 socket = listener.accept();
-                socket.setSoTimeout(1000);
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Vector<Record> records = (Vector<Record>) ois.readObject();
 
