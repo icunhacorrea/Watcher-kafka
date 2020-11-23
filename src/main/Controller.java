@@ -33,6 +33,11 @@ public class Controller extends Thread {
                 start = System.nanoTime();
             }
 
+            if (circularList.getCountInsertions() == circularList.getTotalMesages()) {
+                // start timeout
+
+            }
+
             stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
 
