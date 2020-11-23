@@ -161,7 +161,6 @@ public class CircularList {
                     replace = true;
                     break;
                 }
-
             }
 
             current = current.getNext();
@@ -333,7 +332,7 @@ public class CircularList {
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() / 4)) {
+            if (size < (getTotalMesages() / 5)) {
                 size += (0.05 * size);
             }
         }
