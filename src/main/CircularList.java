@@ -218,7 +218,7 @@ public class CircularList {
 
                 current = lastUnconfirmed;
 
-                if (current == null)
+                if (current == null || r == null)
                     return;
 
                 while (true) {
