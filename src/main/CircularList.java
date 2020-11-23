@@ -252,7 +252,7 @@ public class CircularList {
         ProducerRecord<String, String> record = new ProducerRecord<>(_record.getDestino(),
                 Integer.toString(_record.getIdSeq()), _record.getValue());
         producer.send(record);
-        producer.flush();
+        //producer.flush();
     }
 
     public void incrementCounter() {
