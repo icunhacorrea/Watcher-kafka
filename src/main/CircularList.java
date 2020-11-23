@@ -218,7 +218,7 @@ public class CircularList {
 
                 current = lastUnconfirmed;
 
-                if (current == null)
+                if (getCountInsertions() == 0)
                     return;
 
                 while (true) {
