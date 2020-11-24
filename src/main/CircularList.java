@@ -99,7 +99,7 @@ public class CircularList {
         this.counter = 0;
         this.countInsertions = 0;
         this.countResends = 0;
-        this.totalMesages = 0;
+        this.totalMesages = -1;
         Properties props = newConfig();
         this.producer = new KafkaProducer<>(props);
     }
@@ -318,6 +318,10 @@ public class CircularList {
         this.timeProduce = Long.MIN_VALUE;
     }
 
+    public long getTimeout() {
+        return this.timeProduce;
+    }
+
     public void addReceived(String r) {
         synchronized (received) {
             received.add(r);
@@ -352,7 +356,7 @@ public class CircularList {
         if (percentRead == 1 || this.timeProduce > TIMEOUT_PRODUCE) {
             System.out.println("Produção de mensagens encerrada.");
             getMedianAge();
-            setTotalMesages(0);
+            setTotalMesages(-1);
             setInsertions(0);
             setQntRead(0);
             setTotalMesages(0);
