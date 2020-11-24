@@ -35,7 +35,7 @@ public class Controller extends Thread {
 
             if (circularList.getCountInsertions() == circularList.getTotalMesages()) {
                 // start timeout
-
+                System.out.println("Produção de mensagens acabou, inicializar timeout para varrer lista.");
             }
 
             stop = System.nanoTime();
