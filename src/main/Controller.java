@@ -1,8 +1,5 @@
 package main;
 
-import org.apache.kafka.clients.producer.*;
-
-import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Controller extends Thread {

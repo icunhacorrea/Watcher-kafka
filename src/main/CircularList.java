@@ -348,7 +348,7 @@ public class CircularList {
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
         System.out.println("*** Inserções: " + getCountInsertions());
         System.out.println("*** Total esperado: " + getTotalMesages());
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         if (percentRead < 0.1) {
             if (size < (getTotalMesages() / 5)) {
