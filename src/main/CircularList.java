@@ -223,9 +223,6 @@ public class CircularList {
 
                 while (current.getNext() != lastUnconfirmed) {
 
-                    if (current == null || current.getKey() == null || r == null)
-                        return;
-
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
                         current.setRead(true);
