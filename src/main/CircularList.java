@@ -223,6 +223,9 @@ public class CircularList {
 
                 while (true) {
 
+                    if (current == null || current.getKey() == null || r == null)
+                        return;
+
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
                         current.setRead(true);
@@ -356,7 +359,7 @@ public class CircularList {
         if (percentRead == 1 || this.timeProduce > TIMEOUT_PRODUCE) {
             System.out.println("Produção de mensagens encerrada.");
             stopTimeout();
-            markReadRecived();
+            //markReadRecived();
             searchLosts();
             getMedianAge();
             setTotalMesages(-1);
