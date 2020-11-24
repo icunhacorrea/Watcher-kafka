@@ -35,6 +35,7 @@ public class Controller extends Thread {
 
             if (circularList.getCountInsertions() == circularList.getTotalMesages()) {
                 // start timeout
+                circularList.startTimeout();
                 System.out.println("Produção de mensagens acabou, inicializar timeout para varrer lista.");
             }
 
@@ -49,6 +50,11 @@ public class Controller extends Thread {
             return true;
         return false;
     }
+
+    /*private boolean finishProduce() {
+        return cacheManager.getMonitorFinish() &&
+                (stamp - cacheManager.getTimeout() > TIMEOUT);
+    }*/
 
     public void printInfo() {
         //System.out.println("Qnt: " + circularList.getCounter() + " " + circularList.toString());

@@ -26,6 +26,10 @@ public class CircularList {
 
     Producer<String, String> producer;
 
+    private long timeProduce = Long.MIN_VALUE;
+
+    final int TIMEOUT_PRODUCE = 180000;
+
     static class Node{
 
         private Object data;
@@ -306,6 +310,14 @@ public class CircularList {
         return totalMesages;
     }
 
+    public void startTimeout() {
+        this.timeProduce = System.currentTimeMillis();
+    }
+
+    public void stopTimeout() {
+        this.timeProduce = Long.MIN_VALUE;
+    }
+
     public void addReceived(String r) {
         synchronized (received) {
             received.add(r);
@@ -337,13 +349,14 @@ public class CircularList {
             }
         }
 
-        if (percentRead == 1) {
+        if (percentRead == 1 || this.timeProduce > TIMEOUT_PRODUCE) {
             System.out.println("Produção de mensagens encerrada.");
             getMedianAge();
             setTotalMesages(0);
             setInsertions(0);
             setQntRead(0);
             setTotalMesages(0);
+            stopTimeout();
         }
     }
 
@@ -360,6 +373,23 @@ public class CircularList {
         sum += tail.getAge();
 
         System.out.println("Idade média: " + sum / size);
+    }
+
+    public void searchLosts() {
+
+        int sum = 0;
+
+        Node current = head;
+
+        System.out.println("*** Iniciando contagem dos fdp que não foram enviados.... ***");
+        while (current.getNext() != head) {
+            if (!current.getRead())
+                sum += 1;
+        }
+        if (!tail.getRead())
+            sum += 1;
+
+        System.println("*** total de : " + sum + " não confirmados. ***");
     }
 
     private static Properties newConfig() {
