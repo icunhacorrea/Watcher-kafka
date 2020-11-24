@@ -47,7 +47,7 @@ public class SocketServer extends Thread {
                         circularList.insert(record, record.getOrigem() + ";" +
                                     record.getDestino() + ";" + record.getIdSeq() + ";" + record.getQntRecords());
 
-                        if (circularList.getTotalMesages() == 0)
+                        if (circularList.getTotalMesages() == -1)
                             circularList.setTotalMesages(record.getQntRecords());
                     }
                 }
