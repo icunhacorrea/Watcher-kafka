@@ -345,6 +345,7 @@ public class CircularList {
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
         //System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
         System.out.println("*** Tamanho da lista: " + size + " ***");
+        System.out.println("*** Qantidade de Read: " + getQntRead() + " ***");
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
         System.out.println("*** Inserções: " + getCountInsertions());
         System.out.println("*** Total esperado: " + getTotalMesages());
