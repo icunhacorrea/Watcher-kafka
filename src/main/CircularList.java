@@ -389,7 +389,7 @@ public class CircularList {
         if (!tail.getRead())
             sum += 1;
 
-        System.println("*** total de : " + sum + " não confirmados. ***");
+        System.out.println("*** total de : " + sum + " não confirmados. ***");
     }
 
     private static Properties newConfig() {
