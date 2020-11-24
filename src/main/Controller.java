@@ -28,7 +28,6 @@ public class Controller extends Thread {
             }
 
             if (mayChangeSize(convert)) {
-                printInfo();
                 circularList.changeSize();
                 start = System.nanoTime();
             }
@@ -52,19 +51,4 @@ public class Controller extends Thread {
             return true;
         return false;
     }
-
-    /*private boolean finishProduce() {
-        return cacheManager.getMonitorFinish() &&
-                (stamp - cacheManager.getTimeout() > TIMEOUT);
-    }*/
-
-    public void printInfo() {
-        //System.out.println("Qnt: " + circularList.getCounter() + " " + circularList.toString());
-        System.out.println("Qnt received: " + circularList.getSizeReceived());
-        System.out.println("Insertions: " + circularList.getCountInsertions());
-        System.out.println("Qnt Read: " + circularList.getQntRead());
-        System.out.println("Total esperado: " + circularList.getTotalMesages());
-        //circularList.changeSize();
-    }
-
 }
