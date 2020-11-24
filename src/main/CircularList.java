@@ -221,10 +221,10 @@ public class CircularList {
 
                 current = lastUnconfirmed;
 
-                if (getCountInsertions() == 0)
-                    return;
-
                 while (true) {
+
+                    if (current == null || current.getKey() == null || r == null)
+                        return;
 
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
