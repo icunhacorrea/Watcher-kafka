@@ -223,7 +223,7 @@ public class CircularList {
 
                 while (true) {
 
-                    if (current == null || current.getKey() == null || r == null)
+                    if (current == null)
                         return;
 
                     if(current.getKey().equals(r)) {
