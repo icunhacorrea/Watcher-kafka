@@ -20,13 +20,13 @@ public class Controller extends Thread {
 
         while(true) {
 
-            if (circularList.getSizeReceived() != 0) {
-                circularList.markReadRecived();
-            }
-
             if (mayChangeSize(convert)) {
                 circularList.changeSize();
                 start = System.nanoTime();
+            }
+
+            if (circularList.getSizeReceived() != 0) {
+                circularList.markReadRecived();
             }
 
             if (mayFinish()) {
