@@ -32,7 +32,7 @@ public class Controller extends Thread {
                 start = System.nanoTime();
             }
 
-            if (circularList.getCountInsertions() == circularList.getTotalMesages()) {
+            if (mayFinish()) {
                 // start timeout
                 if (circularList.getTimeout() == Long.MIN_VALUE) {
                     circularList.startTimeout();
@@ -44,6 +44,11 @@ public class Controller extends Thread {
             convert = TimeUnit.SECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
 
         }
+    }
+
+    private boolean mayFinish() {
+        return (circularList.getCountInsertions() == circularList.getTotalMesages()) &&
+                (circularList.getSizeReceived() == 0);
     }
 
     private boolean mayChangeSize(long convert) {
