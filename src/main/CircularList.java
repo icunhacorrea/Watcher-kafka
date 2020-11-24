@@ -28,7 +28,7 @@ public class CircularList {
 
     private long timeProduce = Long.MIN_VALUE;
 
-    final int TIMEOUT_PRODUCE = 240000;
+    final int TIMEOUT_PRODUCE = 60000;
 
     static class Node{
 
@@ -354,7 +354,9 @@ public class CircularList {
             }
         }
 
-        if (percentRead == 1 || this.timeProduce > TIMEOUT_PRODUCE) {
+        long stamp = System.currentTimeMillis();
+
+        if (percentRead == 1 || (stamp - this.timeProduce > TIMEOUT_PRODUCE)) {
             System.out.println("Produção de mensagens encerrada.");
             stopTimeout();
             //markReadRecived();
@@ -392,6 +394,8 @@ public class CircularList {
         while (current.getNext() != head) {
             if (!current.getRead())
                 sum += 1;
+
+            current = current.getNext();
         }
         if (!tail.getRead())
             sum += 1;
