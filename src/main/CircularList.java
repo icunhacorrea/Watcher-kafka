@@ -156,7 +156,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() > 1){
+                if (current.getAge() > 2){
                     incrementResends();
 
                     resend(current.getData());
@@ -349,7 +349,7 @@ public class CircularList {
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() / 6)) {
+            if (size < (getTotalMesages() / 8)) {
                 size += (0.05 * size);
             }
         }
