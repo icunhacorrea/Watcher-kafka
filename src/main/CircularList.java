@@ -156,7 +156,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() > 4){
+                if (current.getAge() >= 6){
                     incrementResends();
 
                     resend(current.getData());
@@ -351,6 +351,7 @@ public class CircularList {
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
         //System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
         System.out.println("*** Tamanho da lista: " + size + " ***");
+        System.out.println("*** Size Received: " + received.size() + " ***");
         System.out.println("*** Qantidade de Read: " + getQntRead() + " ***");
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
         System.out.println("*** Inserções: " + getCountInsertions());
@@ -417,6 +418,7 @@ public class CircularList {
         //props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka1:9092,kafka2:9092,kafka3:9092");
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.21.0.5:9092,172.21.0.6:9092,172.21.0.7:9092");
         props.put(ProducerConfig.ACKS_CONFIG, "-1");
+        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         return props;
