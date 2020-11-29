@@ -237,7 +237,16 @@ public class CircularList {
                 }
             }
 
-            received.removeAll(checked);
+            for (String i : checked) {
+                for (String j : received) {
+                    if (i.equals(j)) {
+                        received.remove(i);
+                        break;
+                    }
+                }
+            }
+
+            //received.removeAll(checked);
 
         }
     }
