@@ -369,7 +369,7 @@ public class CircularList {
         if (percentRead == 1 || (stamp - this.timeProduce > TIMEOUT_PRODUCE)) {
             System.out.println("Produção de mensagens encerrada.");
             stopTimeout();
-            //markReadRecived();
+            markReadRecived();
             searchLosts();
             getMedianAge();
             setTotalMesages(-1);
