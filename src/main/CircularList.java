@@ -156,7 +156,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() > 3){
+                if (current.getAge() > 4){
                     incrementResends();
 
                     resend(current.getData());
