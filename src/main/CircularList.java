@@ -8,6 +8,7 @@ import recordutil.src.main.Record;
 
 import java.util.Properties;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 public class CircularList {
 
@@ -364,7 +365,10 @@ public class CircularList {
             }
         }
 
-        if (percentRead == 1 || (getTimeout() > TIMEOUT_PRODUCE)) {
+        long stop = System.nanoTime();
+        long convert = TimeUnit.SECONDS.convert(stop - getTimeout(), TimeUnit.NANOSECONDS);
+
+        if (percentRead == 1 || (convert > TIMEOUT_PRODUCE)) {
             System.out.println("Produção de mensagens encerrada.");
             stopTimeout();
             markReadRecived();
