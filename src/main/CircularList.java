@@ -30,7 +30,7 @@ public class CircularList {
 
     private long timeProduce = Long.MIN_VALUE;
 
-    final int TIMEOUT_PRODUCE = 120;
+    final int TIMEOUT_PRODUCE = 180;
 
     static class Node{
 
@@ -159,7 +159,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() >= 20){
+                if (current.getAge() >= 30){
                     incrementResends();
 
                     resend(current.getData());
@@ -354,7 +354,7 @@ public class CircularList {
 
     public void changeSize() {
 
-        if (getTotalMesages() == 0)
+        if (getTotalMesages() == -1)
             return;
 
         float percentRead = (float) getQntRead() / getTotalMesages();
@@ -393,7 +393,6 @@ public class CircularList {
             setCountNotifications(0);
             setInsertions(0);
             setQntRead(0);
-            setTotalMesages(0);
         }
     }
 
@@ -403,6 +402,7 @@ public class CircularList {
         Node current = head;
 
         while (current.getNext() != head) {
+            System.out.print(current.getAge() + " - ");
             sum += current.getAge();
             current = current.getNext();
         }
