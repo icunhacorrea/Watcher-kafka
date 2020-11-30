@@ -20,6 +20,7 @@ public class CircularList {
     private int size;
     private int counter;
     private int countInsertions;
+    private int countNotifications;
     private int countResends;
     private int qntRead;
     private int totalMesages;
@@ -29,7 +30,7 @@ public class CircularList {
 
     private long timeProduce = Long.MIN_VALUE;
 
-    final int TIMEOUT_PRODUCE = 180000;
+    final int TIMEOUT_PRODUCE = 120;
 
     static class Node{
 
@@ -297,6 +298,18 @@ public class CircularList {
         this.countInsertions = insertions;
     }
 
+    public void incrementNotifications() {
+        countNotifications++;
+    }
+
+    public int getCountNotifications() {
+        return countNotifications;
+    }
+
+    public void setCountNotifications(int notifications) {
+        this.countNotifications = countNotifications;
+    }
+
     public void setResends(int resends) {
         this.countResends = resends;
     }
@@ -354,6 +367,7 @@ public class CircularList {
         System.out.println("*** Tamanho da lista: " + size + " ***");
         System.out.println("*** Size Received: " + received.size() + " ***");
         System.out.println("*** Qantidade de Read: " + getQntRead() + " ***");
+        System.out.println("*** Qantidade de Notificações: " + getCountNotifications() + " ***");
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
         System.out.println("*** Inserções: " + getCountInsertions());
         System.out.println("*** Total esperado: " + getTotalMesages());
@@ -375,6 +389,7 @@ public class CircularList {
             searchLosts();
             getMedianAge();
             setTotalMesages(-1);
+            setCountNotifications(0);
             setInsertions(0);
             setQntRead(0);
             setTotalMesages(0);

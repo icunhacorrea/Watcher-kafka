@@ -9,8 +9,6 @@ public class ZnodeMonitor extends Thread {
 
     String znode;
 
-    int count = 0;
-
     CircularList circularList;
 
     public ZnodeMonitor(String zkUrl, String znode, CircularList circularList) {
@@ -31,12 +29,12 @@ public class ZnodeMonitor extends Thread {
                         try {
                             bytes = zk.getData(event.getPath(), false, null);
                             String data = new String(bytes);
-                            count += 1;
                             //System.out.println("Notificação: " + data);
                             //System.out.println("count: " + count);
                             //System.out.println(event.getPath());
 
                             circularList.addReceived(data);
+                            circularList.incrementNotifications();
 
                         } catch (Exception e) {
                             e.printStackTrace();
