@@ -163,8 +163,8 @@ public class CircularList {
 
                 if (current.getAge() > 0){
                     resend(current.getData());
+                    incrementResends();
                     incrementQntRead();
-
                     replace = true;
                     break;
                 }
