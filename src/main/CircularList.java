@@ -263,7 +263,7 @@ public class CircularList {
         ProducerRecord<String, String> record = new ProducerRecord<>(_record.getDestino(),
                 Integer.toString(_record.getIdSeq()), _record.getValue());
         producer.send(record);
-        //producer.flush();
+        producer.flush();
     }
 
     public void incrementCounter() {
@@ -363,7 +363,6 @@ public class CircularList {
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
-        //System.out.println("*** Quantidade de mensagens confirmadas: " + getQntRead() + " ***");
         System.out.println("*** Tamanho da lista: " + size + " ***");
         System.out.println("*** Size Received: " + received.size() + " ***");
         System.out.println("*** Qantidade de Read: " + getQntRead() + " ***");
@@ -371,7 +370,6 @@ public class CircularList {
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
         System.out.println("*** Inserções: " + getCountInsertions());
         System.out.println("*** Total esperado: " + getTotalMesages());
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         if (percentRead < 0.1) {
             if (size < (getTotalMesages() / 10)) {
@@ -381,6 +379,8 @@ public class CircularList {
 
         long stop = System.nanoTime();
         long convert = TimeUnit.SECONDS.convert(stop - getTimeout(), TimeUnit.NANOSECONDS);
+
+        System.out.println("*** Convert: " + convert);
 
         if (percentRead == 1 || (convert > TIMEOUT_PRODUCE)) {
             System.out.println("Produção de mensagens encerrada.");
