@@ -172,7 +172,7 @@ public class CircularList {
                 current.incrementAge();
 
                 if (current.getAge() > 10){
-                    current.
+                    current.setAge(-1);
                 }
             }
 
