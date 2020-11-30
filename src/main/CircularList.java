@@ -14,7 +14,6 @@ public class CircularList {
 
     private Node head;
     private Node tail;
-    private Node lastUnconfirmed;
     private Node startPointer;
 
     private int size;
@@ -91,15 +90,10 @@ public class CircularList {
         public void resetAge() {
             this.age = 0;
         }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
     }
 
     public CircularList(int size) {
         this.head = null;
-        this.lastUnconfirmed = null;
         this.startPointer = null;
         this.size = size;
         this.counter = 0;
@@ -161,7 +155,7 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() > 0){
+                if (current.getAge() > 1){
                     resend(current.getData());
                     incrementResends();
                     incrementQntRead();
@@ -229,7 +223,6 @@ public class CircularList {
                         current.setRead(true);
                         checked.add(r);
                         incrementQntRead();
-                        lastUnconfirmed = current.getNext();
                         break;
                     }
 
