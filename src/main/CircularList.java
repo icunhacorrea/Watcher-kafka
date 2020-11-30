@@ -391,6 +391,7 @@ public class CircularList {
             getMedianAge();
             setTotalMesages(-1);
             setCountNotifications(0);
+            setResends(0);
             setInsertions(0);
             setQntRead(0);
         }
