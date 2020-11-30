@@ -102,6 +102,7 @@ public class CircularList {
         this.countInsertions = 0;
         this.countResends = 0;
         this.totalMesages = -1;
+        this.timeProduce = 0;
         Properties props = newConfig();
         this.producer = new KafkaProducer<>(props);
     }
