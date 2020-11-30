@@ -159,7 +159,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() > 10){
+                if (current.getAge() > 39){
                     incrementResends();
 
                     resend(current.getData());
@@ -400,7 +400,7 @@ public class CircularList {
         Node current = head;
 
         while (current.getNext() != head) {
-            System.out.print(current.getAge() + " - ");
+            System.out.print(current.getAge() + " " + current.getRead() + " - ");
             sum += current.getAge();
             current = current.getNext();
         }

@@ -16,10 +16,6 @@ public class WatcherKafka {
         SocketServer server = new SocketServer(6666, circularList);
         Controller dispatcher = new Controller(circularList);
 
-        monitor.setPriority(10);
-        server.setPriority(8);
-        dispatcher.setPriority(6);
-
         monitor.start();
         server.start();
         dispatcher.start();
