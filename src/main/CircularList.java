@@ -30,7 +30,7 @@ public class CircularList {
 
     private long timeProduce = Long.MIN_VALUE;
 
-    final int TIMEOUT_PRODUCE = 180;
+    final int TIMEOUT_PRODUCE = 120;
 
     static class Node{
 
@@ -159,7 +159,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() > 49){
+                if (current.getAge() > 10){
                     incrementResends();
 
                     resend(current.getData());
@@ -204,13 +204,8 @@ public class CircularList {
 
     public void markReadRecived() {
 
-        if (lastUnconfirmed == null) {
-            if (head == null) {
-                return;
-            } else {
-                lastUnconfirmed = head;
-            }
-        }
+        if (head == null)
+            return;
 
         synchronized (received) {
 
@@ -223,9 +218,9 @@ public class CircularList {
                 //System.out.println("String procurada: " + r);
                 //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
-                current = lastUnconfirmed;
+                current = head;
 
-                while (current.getNext() != lastUnconfirmed) {
+                while (true) {
 
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
@@ -238,6 +233,8 @@ public class CircularList {
 
                     current = current.getNext();
 
+                    if (current == head)
+                        break;
                 }
             }
 
