@@ -159,7 +159,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() >= 8){
+                if (current.getAge() >= 10){
                     incrementResends();
 
                     resend(current.getData());
@@ -378,8 +378,12 @@ public class CircularList {
             }
         }
 
-        long stop = System.nanoTime();
-        long convert = TimeUnit.SECONDS.convert(stop - getTimeout(), TimeUnit.NANOSECONDS);
+        long convert = 0;
+        
+        if (getTimeout() != 0) {
+            long stop = System.nanoTime();
+            convert = TimeUnit.SECONDS.convert(stop - getTimeout(), TimeUnit.NANOSECONDS);
+        }
 
         System.out.println("*** Convert: " + convert);
 
