@@ -203,13 +203,9 @@ public class CircularList {
     }
 
     public void markReadRecived() {
-        if (lastUnconfirmed == null) {
-            if (head == null) {
-                return;
-            } else {
-                lastUnconfirmed = head;
-            }
-        }
+
+        if (head == null)
+            return;
 
         synchronized (received) {
 
@@ -219,12 +215,9 @@ public class CircularList {
 
             for (String r : received) {
 
-                //System.out.println("String procurada: " + r);
-                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
+                current = head;
 
-                current = lastUnconfirmed;
-
-                while (current.getNext() != lastUnconfirmed) {
+                while (true) {
 
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
@@ -248,9 +241,6 @@ public class CircularList {
                     }
                 }
             }
-
-            //received.removeAll(checked);
-
         }
     }
 
@@ -264,7 +254,6 @@ public class CircularList {
         ProducerRecord<String, String> record = new ProducerRecord<>(_record.getDestino(),
                 Integer.toString(_record.getIdSeq()), _record.getValue());
         producer.send(record);
-        producer.flush();
     }
 
     public void incrementCounter() {
@@ -379,15 +368,14 @@ public class CircularList {
         }
 
         long convert = 0;
-        
+
         if (getTimeout() != 0) {
             long stop = System.nanoTime();
             convert = TimeUnit.SECONDS.convert(stop - getTimeout(), TimeUnit.NANOSECONDS);
         }
 
-        System.out.println("*** Convert: " + convert);
-
         if (percentRead == 1 || (convert > TIMEOUT_PRODUCE)) {
+            producer.flush();
             System.out.println("Produção de mensagens encerrada.");
             stopTimeout();
             markReadRecived();

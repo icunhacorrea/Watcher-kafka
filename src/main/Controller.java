@@ -31,7 +31,7 @@ public class Controller extends Thread {
 
             if (mayFinish()) {
                 // start timeout
-                if (circularList.getTimeout() == 0) {
+                if (circularList.getTimeout() == 0 && circularList.getTotalMesages() != 0) {
                     circularList.startTimeout();
                     System.out.println("Produção de mensagens acabou, inicializar timeout para varrer lista.");
                 }
