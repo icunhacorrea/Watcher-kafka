@@ -161,18 +161,14 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() == -1 && !current.getRead()) {
+                current.incrementAge();
+
+                if (current.getAge() > 0){
                     resend(current.getData());
                     incrementQntRead();
 
                     replace = true;
                     break;
-                }
-
-                current.incrementAge();
-
-                if (current.getAge() > 10){
-                    current.setAge(-1);
                 }
             }
 
