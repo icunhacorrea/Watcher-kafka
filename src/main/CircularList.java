@@ -28,9 +28,9 @@ public class CircularList {
 
     Producer<String, String> producer;
 
-    private long timeProduce = Long.MIN_VALUE;
+    private long timeProduce;
 
-    final int TIMEOUT_PRODUCE = 120;
+    final int TIMEOUT_PRODUCE = 60;
 
     static class Node{
 
@@ -90,6 +90,10 @@ public class CircularList {
 
         public void resetAge() {
             this.age = 0;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
         }
     }
 
@@ -157,16 +161,18 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                current.incrementAge();
-
-                if (current.getAge() > 39){
-                    incrementResends();
-
+                if (current.getAge() == -1 && !current.getRead()) {
                     resend(current.getData());
                     incrementQntRead();
 
                     replace = true;
                     break;
+                }
+
+                current.incrementAge();
+
+                if (current.getAge() > 10){
+                    current.
                 }
             }
 
