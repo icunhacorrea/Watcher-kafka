@@ -159,7 +159,7 @@ public class CircularList {
 
                 current.incrementAge();
 
-                if (current.getAge() >= 10){
+                if (current.getAge() >= 20){
                     incrementResends();
 
                     resend(current.getData());
@@ -204,8 +204,13 @@ public class CircularList {
 
     public void markReadRecived() {
 
-        if (head == null)
-            return;
+        if (lastUnconfirmed == null) {
+            if (head == null) {
+                return;
+            } else {
+                lastUnconfirmed = head;
+            }
+        }
 
         synchronized (received) {
 
@@ -215,9 +220,12 @@ public class CircularList {
 
             for (String r : received) {
 
-                current = head;
+                //System.out.println("String procurada: " + r);
+                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
 
-                while (true) {
+                current = lastUnconfirmed;
+
+                while (current.getNext() != lastUnconfirmed) {
 
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
@@ -355,8 +363,8 @@ public class CircularList {
         System.out.println("*** % De mensagens confirmadas: " + percentRead + " ***");
         System.out.println("*** Tamanho da lista: " + size + " ***");
         System.out.println("*** Size Received: " + received.size() + " ***");
-        System.out.println("*** Qantidade de Read: " + getQntRead() + " ***");
-        System.out.println("*** Qantidade de Notificações: " + getCountNotifications() + " ***");
+        System.out.println("*** Quantidade de Read: " + getQntRead() + " ***");
+        System.out.println("*** Quantidade de Notificações: " + getCountNotifications() + " ***");
         System.out.println("*** Quantidade de reenvios: " + getResends() + " ***");
         System.out.println("*** Inserções: " + getCountInsertions());
         System.out.println("*** Total esperado: " + getTotalMesages());
