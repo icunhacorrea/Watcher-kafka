@@ -232,14 +232,16 @@ public class CircularList {
                 }
             }
 
-            for (String i : checked) {
+            received.removeAll(checked);
+
+            /*for (String i : checked) {
                 for (String j : received) {
                     if (i.equals(j)) {
                         received.remove(i);
                         break;
                     }
                 }
-            }
+            }*/
         }
     }
 
