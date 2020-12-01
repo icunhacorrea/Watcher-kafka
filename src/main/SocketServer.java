@@ -30,7 +30,7 @@ public class SocketServer extends Thread {
     public void startServer() {
         System.out.println("The watcher socker server is running...");
         try {
-            listener.setReceiveBufferSize(Integer.MAX_VALUE);
+            //listener.setReceiveBufferSize(Integer.MAX_VALUE);
 
             int count = 0;
 
