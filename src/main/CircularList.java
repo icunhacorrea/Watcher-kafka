@@ -400,7 +400,8 @@ public class CircularList {
         Node current = head;
 
         while (current.getNext() != head) {
-            System.out.print(current.getAge() + " " + current.getRead() + " - ");
+            if (current.getRead() == false)
+                System.out.println(current.getKey() + " - " + current.getAge() + " " + current.getRead() + " - ");
             sum += current.getAge();
             current = current.getNext();
         }
