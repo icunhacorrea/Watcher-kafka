@@ -217,7 +217,7 @@ public class CircularList {
 
                 while (true) {
 
-                    if(current.getKey().equals(r) && !current.getRead()) {
+                    if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
                         current.setRead(true);
                         checked.add(r);
