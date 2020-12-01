@@ -155,13 +155,12 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() > 199){
+                /*if (current.getAge() > 0){
                     resend(current.getData());
                     incrementResends();
-                    incrementQntRead();
                     replace = true;
                     break;
-                }
+                }*/
 
                 current.incrementAge();
             }
@@ -362,7 +361,7 @@ public class CircularList {
         System.out.println("*** Total esperado: " + getTotalMesages());
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() / 10)) {
+            if (size < (getTotalMesages() / 5)) {
                 size += (0.05 * size);
             }
         }
