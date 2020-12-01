@@ -219,10 +219,12 @@ public class CircularList {
 
                     if(current.getKey().equals(r)) {
                         //System.out.println("[ OK ]");
-                        current.setRead(true);
-                        checked.add(r);
-                        incrementQntRead();
-                        break;
+                        if (current.getRead() == false) {
+                            current.setRead(true);
+                            checked.add(r);
+                            incrementQntRead();
+                            break;
+                        }
                     }
 
                     current = current.getNext();
