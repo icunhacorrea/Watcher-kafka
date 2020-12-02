@@ -301,7 +301,7 @@ public class CircularList {
     }
 
     public void setCountNotifications(int notifications) {
-        this.countNotifications = countNotifications;
+        this.countNotifications = notifications;
     }
 
     public void setResends(int resends) {
