@@ -30,9 +30,6 @@ public class SocketServer extends Thread {
     public void startServer() {
         System.out.println("The watcher socker server is running...");
         try {
-            listener.setReceiveBufferSize(Integer.MAX_VALUE);
-
-            int count = 0;
 
             while(true) {
                 socket = listener.accept();
@@ -40,7 +37,6 @@ public class SocketServer extends Thread {
                 Vector<Record> records = (Vector<Record>) ois.readObject();
 
                 for (Record record : records) {
-                    count++;
                     //System.out.println("Record Recebido: " + record.toString());
                     synchronized (circularList) {
 
