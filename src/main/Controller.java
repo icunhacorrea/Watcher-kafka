@@ -44,8 +44,7 @@ public class Controller extends Thread {
     }
 
     private boolean mayFinish() {
-        return (circularList.getCountInsertions() == circularList.getTotalMesages()) &&
-                (circularList.getSizeReceived() == 0);
+        return (circularList.getCountInsertions() == circularList.getTotalMesages());
     }
 
     private boolean mayChangeSize(long convert) {
