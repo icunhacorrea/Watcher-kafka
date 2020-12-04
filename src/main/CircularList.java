@@ -157,12 +157,12 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                /*if (current.getAge() > 0){
+                if (current.getAge() > 0){
                     resend(current.getData());
                     incrementResends();
                     replace = true;
                     break;
-                }*/
+                }
 
                 current.incrementAge();
             }
@@ -384,7 +384,7 @@ public class CircularList {
             stopTimeout();
             markReadRecived();
             searchLosts();
-            getMedianAge();
+            //getMedianAge();
             setTotalMesages(-1);
             setCountNotifications(0);
             setResends(0);
@@ -418,13 +418,17 @@ public class CircularList {
 
         System.out.println("*** Iniciando contagem dos fdp que não foram enviados.... ***");
         while (current.getNext() != head) {
-            if (!current.getRead())
+            if (!current.getRead()) {
+                resend(current.getData());
                 sum += 1;
+            }
 
             current = current.getNext();
         }
-        if (!tail.getRead())
+        if (!tail.getRead()) {
+            resend(tail.getData());
             sum += 1;
+        }
 
         System.out.println("*** total de : " + sum + " não confirmados. ***");
     }
