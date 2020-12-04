@@ -367,7 +367,7 @@ public class CircularList {
         System.out.println("*** Total esperado: " + getTotalMesages());
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() / 8)) {
+            if (size < (getTotalMesages() / 5)) {
                 size += (0.05 * size);
             }
         }
