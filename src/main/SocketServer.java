@@ -32,7 +32,7 @@ public class SocketServer extends Thread {
         
         try {
 
-            socket.setReceiveBufferSize(Integer.MAX_VALUE);
+            listener.setReceiveBufferSize(Integer.MAX_VALUE);
 
             while(true) {
                 socket = listener.accept();
