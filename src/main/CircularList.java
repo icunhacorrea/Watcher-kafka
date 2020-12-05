@@ -366,8 +366,8 @@ public class CircularList {
         System.out.println("*** Total esperado: " + getTotalMesages());
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() / 4)) {
-                size += (0.6 * size);
+            if (size < (getTotalMesages() / 7)) {
+                size += (0.5 * size);
             }
         }
 
@@ -420,6 +420,7 @@ public class CircularList {
         while (current.getNext() != head) {
             if (!current.getRead()) {
                 resend(current.getData());
+                incrementResends();
                 sum += 1;
             }
 
