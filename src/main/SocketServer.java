@@ -29,7 +29,10 @@ public class SocketServer extends Thread {
     @SuppressWarnings("unchecked")
     public void startServer() {
         System.out.println("The watcher socker server is running...");
+        
         try {
+
+            socket.setReceiveBufferSize(Integer.MAX_VALUE);
 
             while(true) {
                 socket = listener.accept();
