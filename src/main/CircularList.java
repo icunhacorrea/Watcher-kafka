@@ -157,7 +157,7 @@ public class CircularList {
                 // Se for velho demais, reenviar e alterar.
                 // resend current here.
 
-                if (current.getAge() > 0){
+                if (current.getAge() > 1){
                     resend(current.getData());
                     incrementResends();
                     replace = true;
@@ -435,10 +435,8 @@ public class CircularList {
 
     private static Properties newConfig() {
         Properties props = new Properties();
-        //props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka1:9092,kafka2:9092,kafka3:9092");
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.21.0.5:9092,172.21.0.6:9092,172.21.0.7:9092");
         props.put(ProducerConfig.ACKS_CONFIG, "1");
-        //props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         return props;
