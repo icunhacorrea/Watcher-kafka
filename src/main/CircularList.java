@@ -367,7 +367,7 @@ public class CircularList {
 
         if (percentRead < 0.1) {
             if (size < (getTotalMesages() / 4)) {
-                size += (0.8 * size);
+                size += (0.6 * size);
             }
         }
 
