@@ -10,15 +10,15 @@ public class WatcherKafka {
 
         String znode = "/brokers/topics";
 
-        CircularList circularList = new CircularList(10000);
+        CircularList circularList = new CircularList(15000);
 
         ZnodeMonitor monitor = new ZnodeMonitor(zkHostPort, znode, circularList);
         SocketServer server = new SocketServer(6666, circularList);
         Controller dispatcher = new Controller(circularList);
 
         monitor.setPriority(10);
-        server.setPriority(8);
-        dispatcher.setPriority(6);
+        server.setPriority(10);
+        dispatcher.setPriority(10);
 
         monitor.start();
         server.start();
