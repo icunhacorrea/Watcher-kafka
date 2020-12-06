@@ -217,6 +217,9 @@ public class CircularList {
 
                 current = head;
 
+                if (current == null)
+                    return;
+
                 while (true) {
 
                     if(current.getKey().equals(r)) {
