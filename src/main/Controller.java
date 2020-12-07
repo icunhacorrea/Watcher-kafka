@@ -21,7 +21,8 @@ public class Controller extends Thread {
         while(true) {
 
             if (circularList.getSizeReceived() != 0) {
-                circularList.markReadRecived();
+                //circularList.markReadRecived();
+                circularList.markReadRecived2();
             }
 
             if (mayChangeSize(convert)) {
