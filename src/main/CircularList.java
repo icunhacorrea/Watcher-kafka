@@ -251,60 +251,6 @@ public class CircularList {
         }
     }
 
-    public void markReadRecived2() {
-
-        if (lastUnconfirmed == null) {
-            if (head == null) {
-                return;
-            } else {
-                lastUnconfirmed = head;
-            }
-        }
-
-        synchronized (received) {
-
-            Vector<String> checked = new Vector<>();
-
-            Node current;
-
-            for (String r : received) {
-
-                //System.out.println("String procurada: " + r);
-                //System.out.println("LastUnconfirmed: " + lastUnconfirmed.getKey());
-
-                current = lastUnconfirmed;
-
-                if (current == null)
-                    return;
-
-                while (current.getNext() != lastUnconfirmed) {
-
-                    if(current.getKey().equals(r)) {
-                        //System.out.println("[ OK ]");
-                        current.setRead(true);
-                        checked.add(r);
-                        incrementQntRead();
-                        lastUnconfirmed = current.getNext();
-                        break;
-                    }
-
-                    current = current.getNext();
-
-                }
-            }
-
-            for (String i : checked) {
-                for (String j : received) {
-                    if (i.equals(j)) {
-                        received.remove(i);
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
     public String concatString(Node current) {
         return " -> [" + current.getKey() + " / " + current.getRead() + " " +
                 current.getAge() + "]";
