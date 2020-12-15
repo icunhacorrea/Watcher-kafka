@@ -29,7 +29,7 @@ public class CircularList {
 
     private long timeProduce;
 
-    final int TIMEOUT_PRODUCE = 180;
+    final int TIMEOUT_PRODUCE = 240;
 
     static class Node{
 
@@ -419,7 +419,7 @@ public class CircularList {
 
         Node current = head;
 
-        System.out.println("*** Iniciando contagem dos fdp que não foram enviados.... ***");
+        System.out.println("*** Iniciando contagem das mensagens que não foram enviados.... ***");
         while (current.getNext() != head) {
             if (!current.getRead()) {
                 resend(current.getData());
