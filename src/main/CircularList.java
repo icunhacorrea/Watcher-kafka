@@ -15,7 +15,6 @@ public class CircularList {
     private Node head;
     private Node tail;
     private Node startPointer;
-    private Node lastUnconfirmed;
 
     private int size;
     private int counter;
@@ -30,7 +29,7 @@ public class CircularList {
 
     private long timeProduce;
 
-    final int TIMEOUT_PRODUCE = 60;
+    final int TIMEOUT_PRODUCE = 180;
 
     static class Node{
 
