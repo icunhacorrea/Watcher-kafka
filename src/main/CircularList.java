@@ -178,7 +178,9 @@ public class CircularList {
             current.resetAge();
             incrementInsertions();
         }
+
         startPointer = current.getNext();
+
     }
 
     public String toString(){
@@ -369,7 +371,7 @@ public class CircularList {
         System.out.println("*** Total esperado: " + getTotalMesages());
 
         if (percentRead < 0.1) {
-            if (size < (getTotalMesages() / 7)) {
+            if (size < (getTotalMesages() / 6)) {
                 size += (0.5 * size);
             }
         }
