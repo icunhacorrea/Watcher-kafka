@@ -95,7 +95,6 @@ public class CircularList {
     public CircularList(int size) {
         this.head = null;
         this.startPointer = null;
-        this.lastUnconfirmed = null;
         this.size = size;
         this.counter = 0;
         this.countInsertions = 0;
