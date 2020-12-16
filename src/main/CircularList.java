@@ -29,7 +29,7 @@ public class CircularList {
 
     private long timeProduce;
 
-    final int TIMEOUT_PRODUCE = 240;
+    final int TIMEOUT_PRODUCE = 300;
 
     static class Node{
 

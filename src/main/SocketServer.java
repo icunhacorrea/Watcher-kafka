@@ -50,6 +50,9 @@ public class SocketServer extends Thread {
                             circularList.setTotalMesages(record.getQntRecords());
                     }
                 }
+
+                socket.close();
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
