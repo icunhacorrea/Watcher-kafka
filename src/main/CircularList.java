@@ -260,32 +260,38 @@ public class CircularList {
         Record _record = (Record) o;
         ProducerRecord<String, String> record = new ProducerRecord<>(_record.getDestino(),
                 Integer.toString(_record.getIdSeq()), _record.getValue());
-        resended.put(_record.getKey(), record);
-        producer.send(record, new Callback() {
-            @Override
-            public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                if (e == null) {
-                    // Caso entregue com sucesso
-                    System.out.println("Reenvio de " + _record.getKey() + " ocorrido com sucesso!");
-                    resended.remove(_record.getKey());
-                } else {
-                    System.out.println("Reenviando " + _record.getKey() + " em outro momento...");
+        synchronized (resended) {
+            resended.put(_record.getKey(), record);
+            producer.send(record, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    if (e == null) {
+                        // Caso entregue com sucesso
+                        System.out.println("Reenvio de " + _record.getKey() + " ocorrido com sucesso!");
+                        resended.remove(_record.getKey());
+                    } else {
+                        System.out.println("Reenviando " + _record.getKey() + " em outro momento...");
+                    }
                 }
-            }
-        });
-        producer.flush();
+            });
+            producer.flush();
+        }
     }
 
     public int getSizeResended() {
-        return resended.size();
+        synchronized (resended) {
+            return resended.size();
+        }
     }
 
     public void sendAgain() {
-        for (ProducerRecord<String, String> r : resended.values()) {
-            producer.send(r);
-            producer.flush();
+        synchronized (resended) {
+            for (ProducerRecord<String, String> r : resended.values()) {
+                producer.send(r);
+                producer.flush();
+            }
+            resended.clear();
         }
-        resended.clear();
     }
 
     public void incrementCounter() {
