@@ -29,6 +29,10 @@ public class Controller extends Thread {
                 start = System.nanoTime();
             }
 
+            if (circularList.getSizeResended() != 0) {
+                circularList.sendAgain();
+            }
+
             if (mayFinish()) {
                 // start timeout
                 if (circularList.getTimeout() == 0 && circularList.getTotalMesages() != 0) {

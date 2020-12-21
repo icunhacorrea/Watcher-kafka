@@ -1,11 +1,9 @@
 package main;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 import recordutil.src.main.Record;
 
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +22,8 @@ public class CircularList {
     private int qntRead;
     private int totalMesages;
     Vector<String> received = new Vector<>();
+    HashMap<String, ProducerRecord<String, String>> resended = new
+            HashMap<String, ProducerRecord<String, String>>();
 
     Producer<String, String> producer;
 
@@ -260,7 +260,32 @@ public class CircularList {
         Record _record = (Record) o;
         ProducerRecord<String, String> record = new ProducerRecord<>(_record.getDestino(),
                 Integer.toString(_record.getIdSeq()), _record.getValue());
-        producer.send(record);
+        resended.put(_record.getKey(), record);
+        producer.send(record, new Callback() {
+            @Override
+            public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                if (e == null) {
+                    // Caso entregue com sucesso
+                    System.out.println("Reenvio de " + _record.getKey() + " ocorrido com sucesso!");
+                    resended.remove(_record.getKey());
+                } else {
+                    System.out.println("Reenviando " + _record.getKey() + " em outro momento...");
+                }
+            }
+        });
+        producer.flush();
+    }
+
+    public int getSizeResended() {
+        return resended.size();
+    }
+
+    public void sendAgain() {
+        for (ProducerRecord<String, String> r : resended.values()) {
+            producer.send(r);
+            producer.flush();
+        }
+        resended.clear();
     }
 
     public void incrementCounter() {
@@ -440,7 +465,8 @@ public class CircularList {
     private static Properties newConfig() {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.21.0.5:9092,172.21.0.6:9092,172.21.0.7:9092");
-        props.put(ProducerConfig.ACKS_CONFIG, "1");
+        props.put(ProducerConfig.ACKS_CONFIG, "-1");
+        props.put(ProducerConfig.RETRIES_CONFIG, 0);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         return props;
