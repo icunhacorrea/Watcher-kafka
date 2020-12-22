@@ -6,7 +6,7 @@ public class Controller extends Thread {
 
     CircularList circularList ;
 
-    int CHECK_SIZE_INTERVAL = 3;
+    int CHECK_SIZE_INTERVAL = 5;
 
     public Controller(CircularList circularList) {
         this.circularList = circularList;
@@ -56,4 +56,6 @@ public class Controller extends Thread {
             return true;
         return false;
     }
+
+
 }

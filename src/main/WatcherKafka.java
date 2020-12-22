@@ -17,8 +17,8 @@ public class WatcherKafka {
         Controller dispatcher = new Controller(circularList);
 
         monitor.setPriority(10);
-        server.setPriority(8);
-        dispatcher.setPriority(9);
+        server.setPriority(10);
+        dispatcher.setPriority(10);
 
         monitor.start();
         server.start();
