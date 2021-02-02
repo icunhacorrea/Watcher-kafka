@@ -29,6 +29,8 @@ public class CircularList {
 
     private long timeProduce;
 
+    private long retransmitionTime;
+
     final int TIMEOUT_PRODUCE = 360;
 
     static class Node{
@@ -101,6 +103,7 @@ public class CircularList {
         this.countResends = 0;
         this.totalMesages = -1;
         this.timeProduce = 0;
+        this.retransmitionTime = 0;
         Properties props = newConfig();
         this.producer = new KafkaProducer<>(props);
     }
@@ -262,6 +265,7 @@ public class CircularList {
                 Integer.toString(_record.getIdSeq()), _record.getValue());
         synchronized (resended) {
             resended.put(_record.getKey(), record);
+            long start = System.currentTimeMillis();
             producer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {
@@ -275,7 +279,18 @@ public class CircularList {
                 }
             });
             producer.flush();
+            long stop = System.currentTimeMillis();
+            long time = stop - start;
+            addRetransmitionTime(time);
         }
+    }
+
+    public void addRetransmitionTime(long time) {
+        this.retransmitionTime += time;
+    }
+
+    public long getRetransmitionTime() {
+        return this.retransmitionTime;
     }
 
     public int getSizeResended() {
@@ -287,8 +302,12 @@ public class CircularList {
     public void sendAgain() {
         synchronized (resended) {
             for (ProducerRecord<String, String> r : resended.values()) {
+                long start = System.currentTimeMillis();
                 producer.send(r);
                 producer.flush();
+                long stop = System.currentTimeMillis();
+                long time = stop - start;
+                addRetransmitionTime(time);
             }
             resended.clear();
         }
@@ -415,6 +434,7 @@ public class CircularList {
         if (percentRead == 1 || (convert > TIMEOUT_PRODUCE)) {
             producer.flush();
             System.out.println("Produção de mensagens encerrada.");
+            System.out.println("Tempo de retransmissao: " + (getRetransmitionTime() / 1000F));
             stopTimeout();
             markReadRecived();
             searchLosts();
