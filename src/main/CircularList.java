@@ -434,10 +434,10 @@ public class CircularList {
         if (percentRead == 1 || (convert > TIMEOUT_PRODUCE)) {
             producer.flush();
             System.out.println("Produção de mensagens encerrada.");
-            System.out.println("Tempo de retransmissao: " + (getRetransmitionTime() / 1000F));
             stopTimeout();
             markReadRecived();
             searchLosts();
+            System.out.println("Tempo de retransmissao: " + (getRetransmitionTime() / 1000F));
             //getMedianAge();
             setTotalMesages(-1);
             setCountNotifications(0);
